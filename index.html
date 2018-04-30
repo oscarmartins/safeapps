@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Support Safepremium Group Apps </title>
+    <link rel="stylesheet" type="text/css" media="screen" href="css/w2ui/w2ui-1.5.rc1.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/index.css" />
+    <script src="js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/w2ui/w2ui-1.5.rc1.js"></script>
+</head>
+<body>
+
+    <div id="layout" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0;"></div>
+
+<script type="text/javascript">
+    $(function () {
+        var pstyle = 'border: 1px solid #dfdfdf; ';
+        $('#layout').w2layout({
+            name: 'layout',
+            panels: [
+                { type: 'main', style: pstyle, content: '' },
+                { type: 'top', style: pstyle, content: '' },
+                { type: 'left', style: pstyle, content: '' },
+                { type: 'right', style: pstyle, content: '' },
+                { type: 'bottom', style: pstyle, content: '' }
+            ]
+        });
+
+        setTimeout(function (point) {
+            if (point === 'init') {
+                //w2ui['layout'].content('main', 'This is some content set manually');
+                w2ui['layout'].load('main', 'app/data/login.html')
+                w2ui['layout'].toggle('top', window.instant);
+                w2ui['layout'].toggle('left', window.instant);
+                w2ui['layout'].toggle('right', window.instant);
+                w2ui['layout'].toggle('bottom', window.instant);
+            }
+        }, 1200, 'init')
+
+    });
+</script>
+</body>
+</html>
