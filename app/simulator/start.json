@@ -1,0 +1,11 @@
+{
+    "orc_toolbar": {
+        "name": "orc_toolbar",
+        "items": [
+            { "type": "button",  "id": "start",  "caption": "Inicio", "icon": "fa-home", "route": "app/data/start.html" },
+            { "type": "button",  "id": "login",  "caption": "Login", "icon": "fa-login", "route": "app/data/login.html" },
+            { "type": "button",  "id": "register",  "caption": "Registo", "icon": "fa-account", "route": "app/data/registo.html" },
+            { "type": "spacer" }		
+        ]
+    }
+}

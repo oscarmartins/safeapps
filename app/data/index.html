@@ -1,0 +1,23 @@
+<div>
+    <script>
+        function loadPage() {
+            setTimeout(function () {
+                w2ui["layout"].toggle('top', window.instant);
+                w2ui["layout"].set('top', { size: 62, title: 'Support Safepremium Group Apps ver 1.1.18' });
+                w2ui["layout"].refresh('top');
+                w2ui['layout'].load('top', 'app/data/W2uiToolbar.html');
+                w2ui['layout'].load('main', 'app/data/start.html');
+            }, 1000);
+        }
+
+        function awaitLoaded() {
+            if (w2ui) {
+                loadPage();
+            } else {
+                console.log(123);
+                setTimeout(awaitLoaded, 100);
+            }
+        }
+        awaitLoaded();     
+    </script>
+</div>

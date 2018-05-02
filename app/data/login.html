@@ -1,22 +1,57 @@
-<div>
-    <script>
-        function loadPage(){
-            setTimeout(function(){
-                w2ui["layout"].toggle('top', window.instant);
-                w2ui["layout"].set('top', {size: 78,title:'Support Safepremium Group Apps ver 1.1.18'});
-                w2ui["layout"].refresh('top');
-                w2ui['layout'].load('top', 'app/data/public-toolbar.html')
-            }, 1000);   
-        }
+<style>
 
-        function awaitLoaded(){
-            if(w2ui){
-                loadPage();
-            } else {
-                console.log(123);
-               setTimeout(awaitLoaded,100); 
-            }
-        }    
-        awaitLoaded();     
-    </script>
+.center-div
+{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+
+</style>
+
+<div class="outer-div">
+    <div id="form" style="width: 500px;" class="center-div"></div>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $().w2destroy('loginForm');
+        $('#form').w2form({ 
+            name   : 'loginForm',
+            header : 'Login',
+            url    : 'http://localhost:8081/orcv2',
+            fields : [
+                { field: 'email', type: 'email', required: true, html: { caption: 'User Email', attr: 'style="width: 300px"' } },
+                { field: 'password',  type: 'password', required: true, html: { caption: 'Password', attr: 'style="width: 300px"' } }
+            ],
+            postData: {
+                REQ_CONTEX : 9999, 
+                REQ_ACTION : 9999,
+                REQ_INPUTS: {}
+            },
+            actions: {
+                'Login': function (event) {
+                    var obj = this;
+                    this.save({}, function (data) {
+                        debugger;
+                        if (data.status == 'error') {
+                            console.log('ERROR: ' + data.message);
+                            return;
+                        }
+                        obj.clear();
+			        });
+                    this.error(function(){
+                        debugger;
+                    })
+                },
+                'Clear': function (event) {
+                    console.log('clear', event);
+                    this.clear();
+                }
+            }
+        });
+    });
+    </script>
