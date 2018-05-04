@@ -19,17 +19,25 @@
 <script type="text/javascript">
     var pstyle = 'border: 1px solid #dfdfdf; ';
     $(function () {
+        w2utils.settings.dataType = 'JSON';
         setTimeout(function (point) {
             if (point === 'init') {
                 $('#layout').w2layout({
                     name: 'layout',
                     panels: [
-                        { type: 'main', style: pstyle, content: '' },
+                        { type: 'main', style: pstyle, content: 'loading' },
                         { type: 'top', style: pstyle, content: '' },
                         { type: 'left', style: pstyle, content: '' },
                         { type: 'right', style: pstyle, content: '' },
                         { type: 'bottom', style: pstyle, content: '' }
-                    ]
+                    ],
+                    onRender: function(event) {
+                        console.log('object '+ this.name + ' is rendered');
+                        debugger;
+                        setTimeout(function(panel){
+                            panel.unlock('main');
+                        }, 1200, this)
+                    }    
                 });
                 //w2ui['layout'].content('main', 'This is some content set manually');
                 w2ui['layout'].load('main', 'app/data/index.html');
@@ -37,6 +45,7 @@
                 w2ui['layout'].toggle('left', window.instant);
                 w2ui['layout'].toggle('right', window.instant);
                 w2ui['layout'].toggle('bottom', window.instant);
+                w2ui.layout.lock('main', 'em atualização.. sincronizar dados...', true);
             }
         }, 1200, 'init')
 
