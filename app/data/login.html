@@ -27,14 +27,15 @@
             header : 'Iniciar Sessão',
             recid      : 100,
             url: url,
+            method: 'POST',
             fields : [
                 { field: 'email', type: 'email', required: true, html: { caption: 'User Email', attr: 'style="width: 300px"' } },
                 { field: 'password',  type: 'password', required: true, html: { caption: 'Password', attr: 'style="width: 300px"' } }
             ],
             postData: {
                 REQ_CONTEX : 9999, 
-                REQ_ACTION : 9999,
-                REQ_INPUTS: {}
+                REQ_ACTION : 1000,
+                REQ_INPUTS: {origin:'w2ui'}
             },
             actions: {
                 'Login': function (event) {
@@ -49,9 +50,6 @@
                     console.log('clear', event);
                     this.clear();
                 }
-            },
-            onError: function(event) {
-                event.preventDefault();
             }
         });
     });
