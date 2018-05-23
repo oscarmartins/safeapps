@@ -1,0 +1,70 @@
+<style>
+
+    .center-div
+    {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+    
+    
+    </style>
+     
+    <div class="outer-div">
+        <div id="registoForm" style="width: 500px;" class="center-div"></div>  
+    </div>
+    
+    <script type="text/javascript">
+        $(function () {
+            
+            var url = 'http://localhost:8081/orcv2';
+    
+            $().w2destroy('registoForm');
+            $('#registoForm').w2form({ 
+                name   : 'registoForm',
+                header : 'Registo Utilizador',
+                recid      : 100,
+                url: url,
+                method: 'POST',
+                fields : [
+                    { field: 'name', type: 'text', required: true, html: { caption: 'User Name', attr: 'style="width: 300px"' } },
+                    { field: 'email', type: 'email', required: true, html: { caption: 'User Email', attr: 'style="width: 300px"' } },
+                    { field: 'password',  type: 'password', required: true, html: { caption: 'Password', attr: 'style="width: 300px"' } },
+                    { field: 'confirmPassword', type: 'password', required: true, html: { caption: 'Confirm Password', attr: 'style="width: 300px"' } },
+                ],
+                postData: {
+                    REQ_CONTEX : 9999, 
+                    REQ_ACTION : 2000,
+                    REQ_INPUTS: {origin:'w2ui'}
+                },
+                actions: {
+                    'Sign-Up': function (event) {
+                        debugger;
+                        if(this.validate()) {
+                            this.save({}, function(res) {
+                                const responses = res.dataresponse
+                                if (res.status === 'success') {
+                                    w2ui.registoForm.clear();
+                                    w2ui.layout.lock('main', responses.output.message , true);
+                                    setTimeout(function(msg){
+                                        w2ui['layout'].load('main', '/app/data/login.html');
+                                        w2ui['layout'].refresh();
+                                        setTimeout(function(msg){
+                                            w2ui['layout'].unlock('main')
+                                            w2alert(msg);
+                                        }, 1000, msg);
+                                    }, 1000, responses.output.success);
+                                }
+                            });
+                        }
+                    },
+                    'Clear': function (event) {
+                        console.log('clear', event);
+                       
+                    }
+                }
+            });
+        });
+        </script>
