@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/index.css" />    
     <script src="js/jquery/jquery.min.js"></script>
     <script src="js/w2ui/w2ui-1.5.rc1.js"></script>
+    <script src="js/index.js"></script>
 </head>
 <body>
 
@@ -18,8 +19,19 @@
 
 <script type="text/javascript">
     var pstyle = 'border: 1px solid #dfdfdf; ';
+
+    $.ajaxSetup({
+        beforeSend: function (xhr) {
+            debugger
+            const xtoken = orctokenmanager.retrieveToken()
+            if (xtoken) {
+                xhr.setRequestHeader('Authorization', xtoken)
+            }
+            
+        }
+    });
+
     $(function () {
-        debugger;
         w2utils.settings.dataType = 'JSON';
         setTimeout(function (point) {
             if (point === 'init') {

@@ -41,8 +41,8 @@
                 'Sign-In': function (event) {
                     debugger;
                     if(this.validate()) {
-                        this.save({test: 123}, function(res) {
-                            debugger;
+                        this.save({}, function(res) {
+                            orctokenmanager.clientAuth(res)
                         });
                     }
                 },
