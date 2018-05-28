@@ -1,0 +1,49 @@
+<div id="layout2" style="width: 100%; height: 300px;"></div>
+
+<div style="height: 20px;"></div>
+
+
+<script type="text/javascript">
+    var isPopupActivated = true;
+    $(function () {
+        var pstyle = 'border: 1px solid #dfdfdf; padding: 5px;';
+        $().w2destroy('layout2');
+        $('#layout2').w2layout({
+            name: 'layout2',
+            panels: [
+                { type: 'left', size: 200, resizable: true, style: pstyle, content: 'left' },
+                { type: 'main', style: pstyle + 'border-top: 0px;', content: 'main' }
+            ],
+            onRender: function () {
+                debugger
+            }
+        });
+        debugger
+        setTimeout(() => {
+            debugger
+            if (isPopupActivated) {
+                showPopup()
+                isPopupActivated = false
+            }
+            
+        }, 500);
+    });
+    function showMessage(panel) {
+        w2ui.layout2.message('main', {
+            width: 300,
+            height: 150,
+            body: '<div class="w2ui-centered">Some Text '+ (new Date()).getTime() +'</div>',
+            buttons: '<button class="w2ui-btn" onclick="w2ui.layout.message(\'main\')">Ok</button>' 
+        })
+    }
+    function showPopup() {
+        w2popup.open({
+            title: 'Popup Title',
+            body: '<div class="w2ui-centered">This is text inside the popup</div>',
+            onClose: function (event) { 
+                console.log('close'); 
+            }
+         });
+    }
+
+    </script>

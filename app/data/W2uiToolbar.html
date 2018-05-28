@@ -14,10 +14,11 @@
             $('#orc_toolbar').w2toolbar(cfg);
             w2ui.orc_toolbar.on('click', function (event) {
                 try {
+                    debugger
                     w2ui['layout'].load('main', event.object.route);
-                    w2ui['layout'].refresh();
+                    //w2ui['layout'].refresh();
                 } catch (error) {
-                    debugger;
+                     debugger
                 }
                
             });

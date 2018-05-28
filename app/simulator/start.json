@@ -2,10 +2,15 @@
     "orc_toolbar": {
         "name": "orc_toolbar",
         "items": [
-            { "type": "button",  "id": "start",  "caption": "Inicio", "icon": "fa-home", "route": "app/data/start.html" },
+            { "type": "button",  "id": "start",  "caption": "Inicio", "icon": " fas fa-home", "route": "app/data/start.html" },
             { "type": "spacer" },
-            { "type": "button",  "id": "login",  "caption": "Login", "icon": "fa-login", "route": "app/data/login.html" },
-            { "type": "button",  "id": "register",  "caption": "Registo", "icon": "fa-account", "route": "app/data/registo.html" }
+            { "type": "button",  "id": "login",  "caption": "Login", "icon": " fas fa-sign-in-alt", "route": "app/data/login.html" },
+            { "type": "break" },
+            { "type": "button",  "id": "register",  "caption": "Registo", "icon": " fas fa-user-plus", "route": "app/data/registo.html" },
+            { "type": "break" },
+            { "type": "button",  "id": "recovery",  "caption": "Recuperar Conta", "icon": " fas fa-key", "route": "app/data/recoveryPassword.html" },
+            { "type": "break" },
+            { "type": "button",  "id": "info",  "caption": "", "icon": " fas fa-exclamation-circle", "route": "app/data/infoApp.html" }
             		
         ]
     }

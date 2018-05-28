@@ -39,10 +39,14 @@
             },
             actions: {
                 'Sign-In': function (event) {
-                    debugger;
                     if(this.validate()) {
-                        this.save({}, function(res) {
-                            orctokenmanager.clientAuth(res)
+                        this.save({login: new Date}, function(res) {
+                             
+                            if (orctokenmanager.clientAuth(res)){
+                                console.log('login proccess')
+                            } else {
+                                console.log('not logged.. try again!')
+                            }
                         });
                     }
                 },

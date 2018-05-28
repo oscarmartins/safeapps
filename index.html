@@ -22,7 +22,7 @@
 
     $.ajaxSetup({
         beforeSend: function (xhr) {
-            debugger
+             
             const xtoken = orctokenmanager.retrieveToken()
             if (xtoken) {
                 xhr.setRequestHeader('Authorization', xtoken)
@@ -46,7 +46,7 @@
                     ],
                     onRender: function(event) {
                         console.log('object '+ this.name + ' is rendered');
-                        debugger;
+                         
                         setTimeout(function(panel){
                             panel.unlock('main');
                         }, 1200, this)

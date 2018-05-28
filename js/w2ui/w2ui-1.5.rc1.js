@@ -13826,7 +13826,7 @@ var w2prompt = function (label, title, callBack) {
             var text = item.text;
             if (typeof text == 'function') text = text.call(this, item);
             if (item.img)  img = '<td><div class="w2ui-tb-image w2ui-icon '+ item.img +'"></div></td>';
-            if (item.icon) img = '<td><div class="w2ui-tb-image"><span class="fas '+ item.icon +'"></span></div></td>';
+            if (item.icon) img = '<td><div class="w2ui-tb-image"><span class="fab '+ item.icon +'"></span></div></td>';
 
             if (html === '') switch (item.type) {
                 case 'color':
