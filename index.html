@@ -19,10 +19,10 @@
 
 <script type="text/javascript">
     var pstyle = 'border: 1px solid #dfdfdf; ';
-
+    
     $.ajaxSetup({
         beforeSend: function (xhr) {
-             
+            xhr.setRequestHeader('severContext', orcsettings.server.context)
             const xtoken = orctokenmanager.retrieveToken()
             if (xtoken) {
                 xhr.setRequestHeader('Authorization', xtoken)
@@ -32,7 +32,6 @@
     });
 
     $(function () {
-        w2utils.settings.dataType = 'JSON';
         setTimeout(function (point) {
             if (point === 'init') {
                 $('#layout').w2layout({
@@ -46,7 +45,6 @@
                     ],
                     onRender: function(event) {
                         console.log('object '+ this.name + ' is rendered');
-                         
                         setTimeout(function(panel){
                             panel.unlock('main');
                         }, 1200, this)

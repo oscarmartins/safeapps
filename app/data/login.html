@@ -8,8 +8,6 @@
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
-
-
 </style>
  
 <div class="outer-div">
@@ -19,14 +17,12 @@
 <script type="text/javascript">
     $(function () {
         
-        var url = 'http://localhost:8081/orcv2';
-
         $().w2destroy('loginForm');
         $('#loginForm').w2form({ 
             name   : 'loginForm',
             header : 'Iniciar Sessão',
             recid      : 100,
-            url: url,
+            url: orcsettings.server.serverUrlApi,
             method: 'POST',
             fields : [
                 { field: 'email', type: 'email', required: true, html: { caption: 'User Email', attr: 'style="width: 300px"' } },
@@ -34,7 +30,7 @@
             ],
             postData: {
                 REQ_CONTEX : 9999, 
-                REQ_ACTION : 1000,
+                REQ_ACTION : 2000,
                 REQ_INPUTS: {origin:'w2ui'}
             },
             actions: {

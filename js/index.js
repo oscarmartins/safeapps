@@ -1,3 +1,24 @@
+w2utils.settings.dataType = 'JSON'
+const url_setup = '/app/simulator/start.json'
+const xhr = new XMLHttpRequest
+top.window['orcsettings']={}
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        debugger
+        orcsettings = JSON.parse(xhr.responseText)
+        //overwrite serverUrlApi
+        orcsettings.server.serverUrlApi = orcsettings.server.local_server_path
+    }
+}
+xhr.onload = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        debugger
+        JSON.parse(xhr.responseText)
+    }
+}
+xhr.open('GET', url_setup, true)
+xhr.send()
+
 top.window['orctokenmanager'] = {
     keys: ['access_token', 'Bearer', 'status', 'success', 'dataresponse', 'output', ' {{Bearer}} {{access_token}}', '{{Bearer}}', '{{access_token}}', '.'],
     clientAuth: function (httpJsonResponse) {
