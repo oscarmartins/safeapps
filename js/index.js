@@ -4,10 +4,11 @@ const xhr = new XMLHttpRequest
 top.window['orcsettings']={}
 xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
-        debugger
         orcsettings = JSON.parse(xhr.responseText)
+                
         //overwrite serverUrlApi
         orcsettings.server.serverUrlApi = orcsettings.server.local_server_path
+
     }
 }
 xhr.onload = function () {

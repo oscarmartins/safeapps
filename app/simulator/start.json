@@ -16,7 +16,7 @@
     },
     "server" : {
         "context": "w2ui",
-        "local_server_path": "http://server:8081/orcv2",
+        "local_server_path": "http://localhost:8081/orcv2",
         "remote_server_path": "https://orcseven.com/api/orcv2",
         "serverUrlApi": "https://orcseven.com/api/orcv2"
     }
