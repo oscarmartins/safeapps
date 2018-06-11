@@ -1,16 +1,19 @@
 w2utils.settings.dataType = 'JSON'
-top.window['orcsettings']={}
 const url_setup = '/app/simulator/start.json'
 const xhr = new XMLHttpRequest
-
+function updateOrcSettings (_settings) {
+    if (typeof orcsettings === "undefined") {
+        top.window['orcsettings']={}
+    }
+    orcsettings = JSON.parse(_settings)                
+    //overwrite serverUrlApi
+    if (orcsettings.server) {
+        orcsettings.server.serverUrlApi = orcsettings.server.local_server_path
+    }
+}
 xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
-        debugger
-        orcsettings = JSON.parse(xhr.responseText)                
-        //overwrite serverUrlApi
-        if (orcsettings.server) {
-            orcsettings.server.serverUrlApi = orcsettings.server.local_server_path
-        }
+        updateOrcSettings(xhr.responseText)
     }
 }
 xhr.onload = function () {
