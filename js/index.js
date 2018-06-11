@@ -14,11 +14,11 @@ function updateOrcSettings (_settings) {
 xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
         updateOrcSettings(xhr.responseText)
+        viewController()
     }
 }
 xhr.onload = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
-        debugger
         JSON.parse(xhr.responseText)
     }
 }
@@ -53,4 +53,8 @@ top.window['orctokenmanager'] = {
         const xstoken = localStorage.getItem(orctokenmanager.keys[0])
         return orctokenmanager.keys[6].replace(orctokenmanager.keys[7], orctokenmanager.keys[1]).replace(orctokenmanager.keys[8], xstoken ? xstoken : orctokenmanager.keys[9]) 
     }
+}
+
+function viewController () {
+    debugger
 }

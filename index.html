@@ -26,8 +26,7 @@
             const xtoken = orctokenmanager.retrieveToken()
             if (xtoken) {
                 xhr.setRequestHeader('Authorization', xtoken)
-            }
-            
+            }            
         }
     });
 
@@ -49,18 +48,15 @@
                             panel.unlock('main');
                         }, 1200, this)
                     }    
-                });
-                //w2ui['layout'].content('main', 'This is some content set manually');
-             
+                });            
                 w2ui['layout'].load('main', 'app/data/index.html');
                 w2ui['layout'].toggle('top', window.instant);
                 w2ui['layout'].toggle('left', window.instant);
                 w2ui['layout'].toggle('right', window.instant);
                 w2ui['layout'].toggle('bottom', window.instant);
-                w2ui.layout.lock('main', 'em atualização.. sincronizar dados...', true);
+                w2ui.layout.lock('main', 'sincronizar dados...', true);
             }
         }, 1200, 'init')
-
     });
 </script>
 </body>

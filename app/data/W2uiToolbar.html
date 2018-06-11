@@ -1,35 +1,6 @@
 <div id="orc_toolbar"></div>
 
 <script>
-    /**
-    var urlcfgpath = '/app/simulator/start.json';
-    var cfg = {};
-    $.getJSON(urlcfgpath, function(doc, textStatus, httpResponse){
-        console.log('Path:' + urlcfgpath + ' * text status:' + textStatus);
-    }).complete(function(doc, textStatus){
-        if (doc.responseJSON) {
-            debugger
-            window['orcfg'] = doc.responseJSON
-            cfg = window['orcfg'].orc_toolbar
-            if(w2ui['orc_toolbar']){
-                $().w2destroy('orc_toolbar');
-            }
-            $('#orc_toolbar').w2toolbar(cfg);
-            w2ui.orc_toolbar.on('click', function (event) {
-                try {
-                    debugger
-                    w2ui['layout'].load('main', event.object.route);
-                    //w2ui['layout'].refresh();
-                } catch (error) {
-                     debugger
-                }
-               
-            });
-        }        
-    }).error(function(doc, textStatus, httpResponse){
-        alert('Ocorreu um erro: ' + httpResponse);
-    });
-    **/
     if(w2ui['orc_toolbar']){$().w2destroy('orc_toolbar');}
     const cfg = orcsettings.orc_toolbar
     $('#orc_toolbar').w2toolbar(cfg);
@@ -38,7 +9,7 @@
             w2ui['layout'].load('main', event.object.route);
             //w2ui['layout'].refresh();
         } catch (error) {
-             alert('error')
+             alert('error', error)
         }
     });
 </script>
