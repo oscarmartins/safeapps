@@ -1,6 +1,20 @@
 w2utils.settings.dataType = 'JSON'
-const url_setup = '/app/simulator/start.json'
-const xhr = new XMLHttpRequest
+const url_setup = 'http://localhost:8081/orcv2/viewController' //'/app/simulator/start.json'
+$.ajaxSetup({
+    beforeSend: function (xhr) {
+        const xtoken = orctokenmanager.retrieveToken()
+        if (xtoken) {
+            xhr.setRequestHeader('Authorization', xtoken)
+        }      
+        if (typeof orcsettings !== "undefined") {                
+            xhr.setRequestHeader('severContext', orcsettings.server.context)    
+        } else {
+            w2ui.layout.lock('main', 'erro ao sincronizar dados...', true);
+        }
+         
+    }
+})
+
 function updateOrcSettings (_settings) {
     if (typeof orcsettings === "undefined") {
         top.window['orcsettings']={}
@@ -11,10 +25,41 @@ function updateOrcSettings (_settings) {
         orcsettings.server.serverUrlApi = orcsettings.server.local_server_path
     }
 }
+
+top.window['orctokenmanager'] = {
+    keys: ['access_token', 'Bearer', 'status', 'success', 'dataresponse', 'output', ' {{Bearer}} {{access_token}}', '{{Bearer}}', '{{access_token}}', '.'],
+    loadPage: function () {
+        const xhr = new XMLHttpRequest
 xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
         updateOrcSettings(xhr.responseText)
-        viewController()
+        setTimeout(function (point) {
+            if (point === 'init') {
+                var pstyle = 'border: 1px solid #dfdfdf; ';
+                $('#layout').w2layout({
+                    name: 'layout',
+                    panels: [
+                        { type: 'main', style: pstyle, content: 'loading' },
+                        { type: 'top', style: pstyle, content: '' },
+                        { type: 'left', style: pstyle, content: '' },
+                        { type: 'right', style: pstyle, content: '' },
+                        { type: 'bottom', style: pstyle, content: '' }
+                    ],
+                    onRender: function(event) {
+                        console.log('object '+ this.name + ' is rendered');
+                        setTimeout(function(panel){
+                            panel.unlock('main');
+                        }, 1200, this)
+                    }    
+                });            
+                w2ui['layout'].load('main', 'app/data/index.html');
+                w2ui['layout'].toggle('top', window.instant);
+                w2ui['layout'].toggle('left', window.instant);
+                w2ui['layout'].toggle('right', window.instant);
+                w2ui['layout'].toggle('bottom', window.instant);
+                w2ui.layout.lock('main', 'sincronizar dados...', true);
+            }
+        }, 1200, 'init')
     }
 }
 xhr.onload = function () {
@@ -23,10 +68,9 @@ xhr.onload = function () {
     }
 }
 xhr.open('GET', url_setup, true)
+xhr.setRequestHeader('Authorization', orctokenmanager.retrieveToken())  
 xhr.send()
-
-top.window['orctokenmanager'] = {
-    keys: ['access_token', 'Bearer', 'status', 'success', 'dataresponse', 'output', ' {{Bearer}} {{access_token}}', '{{Bearer}}', '{{access_token}}', '.'],
+    },
     clientAuth: function (httpJsonResponse) {
         let self = orctokenmanager
         if (httpJsonResponse && 
@@ -53,8 +97,4 @@ top.window['orctokenmanager'] = {
         const xstoken = localStorage.getItem(orctokenmanager.keys[0])
         return orctokenmanager.keys[6].replace(orctokenmanager.keys[7], orctokenmanager.keys[1]).replace(orctokenmanager.keys[8], xstoken ? xstoken : orctokenmanager.keys[9]) 
     }
-}
-
-function viewController () {
-    debugger
 }

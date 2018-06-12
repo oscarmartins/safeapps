@@ -18,45 +18,8 @@
     <div id="layout" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0;"></div>
 
 <script type="text/javascript">
-    var pstyle = 'border: 1px solid #dfdfdf; ';
-    
-    $.ajaxSetup({
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader('severContext', orcsettings.server.context)
-            const xtoken = orctokenmanager.retrieveToken()
-            if (xtoken) {
-                xhr.setRequestHeader('Authorization', xtoken)
-            }            
-        }
-    });
-
     $(function () {
-        setTimeout(function (point) {
-            if (point === 'init') {
-                $('#layout').w2layout({
-                    name: 'layout',
-                    panels: [
-                        { type: 'main', style: pstyle, content: 'loading' },
-                        { type: 'top', style: pstyle, content: '' },
-                        { type: 'left', style: pstyle, content: '' },
-                        { type: 'right', style: pstyle, content: '' },
-                        { type: 'bottom', style: pstyle, content: '' }
-                    ],
-                    onRender: function(event) {
-                        console.log('object '+ this.name + ' is rendered');
-                        setTimeout(function(panel){
-                            panel.unlock('main');
-                        }, 1200, this)
-                    }    
-                });            
-                w2ui['layout'].load('main', 'app/data/index.html');
-                w2ui['layout'].toggle('top', window.instant);
-                w2ui['layout'].toggle('left', window.instant);
-                w2ui['layout'].toggle('right', window.instant);
-                w2ui['layout'].toggle('bottom', window.instant);
-                w2ui.layout.lock('main', 'sincronizar dados...', true);
-            }
-        }, 1200, 'init')
+        setTimeout(orctokenmanager.loadPage, 100)
     });
 </script>
 </body>
