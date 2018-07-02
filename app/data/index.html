@@ -1,6 +1,6 @@
 <div>
     <script>
-        function loadPage() {
+        function loadHashPath() {
             setTimeout(function () {
                 var hash = self.location.hash ? self.location.hash.substr(1) : 'app/data/start.html';
                 w2ui["layout"].toggle('top', window.instant);
@@ -11,13 +11,14 @@
             }, 1000);
         }
 
-        function awaitLoaded() {
+        function awaitLoadHash() {
             if (w2ui) {
-                loadPage();
+                loadHashPath();
             } else {
-                setTimeout(awaitLoaded, 100);
+                setTimeout(awaitLoadHash, 100);
             }
         }
-        awaitLoaded();     
+
+        awaitLoadHash();     
     </script>
 </div>

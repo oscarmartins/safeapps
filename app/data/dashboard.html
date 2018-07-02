@@ -1,9 +1,13 @@
 <div>
     <script>
-        w2ui["layout"].set('left', { size: 200, title: '' });
-        w2ui["layout"].refresh('left');
-        w2ui['layout'].show('left')
-        w2ui['layout'].load('left', 'app/data/sidebar.html');
-        w2ui['layout'].load('top', 'app/data/W2uiToolbar.html');
+        $(function () {
+            w2ui["layout"].set('left', { size: 200, title: ''});
+            w2ui["layout"].refresh('left');
+
+            w2ui['layout'].show('left')
+
+            w2ui['layout'].load('left', 'app/data/sidebar.html');
+            w2ui['layout'].load('top', 'app/data/W2uiToolbar.html');
+        });
     </script>
 </div>

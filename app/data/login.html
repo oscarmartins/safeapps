@@ -16,8 +16,15 @@
 
 <script type="text/javascript">
     $(function () {
-        
+        orctokenmanager.removeToken();
         $().w2destroy('loginForm');
+
+        $.get(orcsettings.server.serverUrlApi + '/viewController', function(err, xx){
+            debugger
+            console.log(err)
+
+        })
+
         $('#loginForm').w2form({ 
             name   : 'loginForm',
             header : 'Iniciar Sessão',
@@ -26,7 +33,7 @@
             method: 'POST',
             fields : [
                 { field: 'email', type: 'email', required: true, html: { caption: 'User Email', attr: 'style="width: 300px"' } },
-                { field: 'password',  type: 'password', required: true, html: { caption: 'Password', attr: 'style="width: 300px"' } }
+                { field: 'password', type: 'password', required: true, html: { caption: 'Password', attr: 'style="width: 300px"' } }
             ],
             postData: {
                 REQ_CONTEX : 9999, 
@@ -37,11 +44,11 @@
                 'Sign-In': function (event) {
                     if(this.validate()) {
                         this.save({login: new Date}, function(res) {
-                             
                             if (orctokenmanager.clientAuth(res)){
-                                console.log('login proccess')
+                                document.location.hash = '#app/data/dashboard.html'
+                                document.location.reload()
                             } else {
-                                console.log('not logged.. try again!')
+                                w2alert('Nao foi possivel autenticar')    
                             }
                         });
                     }
