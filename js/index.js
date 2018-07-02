@@ -1,5 +1,4 @@
 w2utils.settings.dataType = 'JSON'
-const url_setup = orcsettings.server.serverUrlApi + '/viewController' // orcsettings.server.serverUrlApi + '/viewController'
 $.ajaxSetup({
     beforeSend: function (xhr) {
         const xtoken = orctokenmanager.retrieveToken()
@@ -9,21 +8,98 @@ $.ajaxSetup({
         if (typeof orcsettings !== "undefined") {                
             xhr.setRequestHeader('severContext', orcsettings.server.context)    
         } else {
-            w2ui.layout.lock('main', 'erro ao sincronizar dados...', true);
+            if (w2ui && w2ui.layout)
+                w2ui.layout.lock('main', 'erro ao sincronizar dados...', true);
         }
     }
 })
 
+function orcToolbar (init) {
+    if(w2ui['orc_toolbar']){
+        orcmanager.w2uiGlobal.destroy('orc_toolbar');
+    }
+    if (typeof orcsettings === "undefined") {
+        w2ui.layout.lock('main', 'erro ao sincronizar dados...', true)
+    } else {
+        const cfg = orcsettings.orc_toolbar
+        $('#orc_toolbar').w2toolbar(cfg);
+        w2ui.orc_toolbar.on('click', function (event) {
+            try {     
+                orcmanager.w2uiGlobal.destroy('orc_sidebar')
+                w2ui['layout'].hide('left');
+                w2ui['layout'].load('main', event.object.route)
+                w2ui['layout'].load('top', 'app/data/W2uiToolbar.html');
+                //w2ui['layout'].refresh();
+                w2ui['layout'].on('content', function (event) {
+                    event.onComplete = function(event) {
+                        //orcmanager.viewController.sync()   
+                    }
+                });
+            } catch (error) {
+                alert('error', error)
+            }
+        })
+    }   
+}
+
 function updateOrcSettings (_settings) {
     if (typeof orcsettings === "undefined") {
-        top.window['orcsettings']={}
+        top.window['orcsettings'] = {}
     }
-    orcsettings = JSON.parse(_settings)                
+    Object.assign(orcsettings,(typeof _settings === 'object' ? _settings : JSON.parse(_settings)))                
     //overwrite serverUrlApi
     if (orcsettings.server) {
         orcsettings.server.serverUrlApi = orcsettings.server.local_server_path
     }
-    orcsettings.w2uiGlobal = {
+}
+
+function initApp () {
+    orcmanager.viewController.sync()
+    setTimeout(function (point) {
+        if (point === 'init') {
+            var pstyle = 'border: 1px solid #dfdfdf; ';
+            orcmanager.w2uiGlobal.destroy('layout')
+            $('#layout').w2layout({
+                name: 'layout',
+                panels: [
+                    { type: 'main', style: pstyle, content: 'loading' },
+                    { type: 'top', style: pstyle, content: '' },
+                    { type: 'left', style: pstyle, content: '' },
+                    { type: 'right', style: pstyle, content: '' },
+                    { type: 'bottom', style: pstyle, content: '' }
+                ],
+                onRender: function (event) {
+                    setTimeout(function (panel) {
+                        panel.unlock('main');
+                    }, 1200, this)
+                }
+            });
+            w2ui['layout'].load('main', 'app/data/index.html');
+            w2ui['layout'].toggle('top', window.instant);
+            w2ui['layout'].toggle('left', window.instant);
+            w2ui['layout'].toggle('right', window.instant);
+            w2ui['layout'].toggle('bottom', window.instant);
+            w2ui.layout.lock('main', 'sincronizar...', true);
+        }
+    }, 1200, 'init')
+}
+
+top.window['orcmanager'] = {
+    viewController: {
+        url_path: '//localhost:8081/orcv2/viewController',
+        sync: function (callbk) {
+            const _self = this
+            $.get(_self.url_path, function (rsp){
+                updateOrcSettings(rsp)
+                orcmanager.viewController._loadOrcToolbar(true)
+                if (typeof callbk !== 'undefined' && typeof callbk === 'function')
+                    callbk()
+            })
+        },
+        _initApp: initApp,
+        _loadOrcToolbar: orcToolbar
+    },
+    w2uiGlobal: {
         destroy: (w2uiAttrObj) => {
             if (w2ui[w2uiAttrObj]) {
                 w2ui[w2uiAttrObj].destroy()
@@ -32,42 +108,16 @@ function updateOrcSettings (_settings) {
             return false
         }
     }
-}
+} 
 
 top.window['orctokenmanager'] = {
     keys: ['access_token', 'Bearer', 'status', 'success', 'dataresponse', 'output', ' {{Bearer}} {{access_token}}', '{{Bearer}}', '{{access_token}}', '.'],
     loadPage: function () {
+        /**
         const xhr = new XMLHttpRequest
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 updateOrcSettings(xhr.responseText)
-                setTimeout(function (point) {
-                    if (point === 'init') {
-                        var pstyle = 'border: 1px solid #dfdfdf; ';
-                        $('#layout').w2layout({
-                            name: 'layout',
-                            panels: [
-                                { type: 'main', style: pstyle, content: 'loading' },
-                                { type: 'top', style: pstyle, content: '' },
-                                { type: 'left', style: pstyle, content: '' },
-                                { type: 'right', style: pstyle, content: '' },
-                                { type: 'bottom', style: pstyle, content: '' }
-                            ],
-                            onRender: function(event) {
-                                console.log('object '+ this.name + ' is rendered');
-                                setTimeout(function(panel){
-                                    panel.unlock('main');
-                                }, 1200, this)
-                            }    
-                        });            
-                        w2ui['layout'].load('main', 'app/data/index.html');
-                        w2ui['layout'].toggle('top', window.instant);
-                        w2ui['layout'].toggle('left', window.instant);
-                        w2ui['layout'].toggle('right', window.instant);
-                        w2ui['layout'].toggle('bottom', window.instant);
-                        w2ui.layout.lock('main', 'sincronizar dados...', true);
-                    }
-                }, 1200, 'init')
             }
         }
         xhr.onload = function () {
@@ -75,9 +125,11 @@ top.window['orctokenmanager'] = {
                 JSON.parse(xhr.responseText)
             }
         }
-        xhr.open('GET', url_setup, true)
+        xhr.open('GET', '//localhost:8081/orcv2/viewController', true)
         xhr.setRequestHeader('Authorization', orctokenmanager.retrieveToken())  
         xhr.send()
+        */
+       orcmanager.viewController._initApp()
     }, clientAuth: function (httpJsonResponse) {
         let self = orctokenmanager
         if (httpJsonResponse && 

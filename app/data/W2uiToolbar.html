@@ -1,25 +1,5 @@
 <div id="orc_toolbar"></div>
 
 <script>
-    
-    if(w2ui['orc_toolbar']){$().w2destroy('orc_toolbar');}
-
-    if (typeof orcsettings === "undefined") {
-        w2ui.layout.lock('main', 'erro ao sincronizar dados...', true)
-    } else {
-        const cfg = orcsettings.orc_toolbar
-        $('#orc_toolbar').w2toolbar(cfg);
-        w2ui.orc_toolbar.on('click', function (event) {
-            try {
-                
-                orcsettings.w2uiGlobal.destroy('orc_sidebar')
-                w2ui['layout'].hide('left');
-
-                w2ui['layout'].load('main', event.object.route)
-                //w2ui['layout'].refresh();
-            } catch (error) {
-                alert('error', error)
-            }
-        })
-    }   
+   orcmanager.viewController.sync()   
 </script>

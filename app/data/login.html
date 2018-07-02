@@ -19,11 +19,7 @@
         orctokenmanager.removeToken();
         $().w2destroy('loginForm');
 
-        $.get(orcsettings.server.serverUrlApi + '/viewController', function(err, xx){
-            debugger
-            console.log(err)
-
-        })
+        // update ui view
 
         $('#loginForm').w2form({ 
             name   : 'loginForm',
