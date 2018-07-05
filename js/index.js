@@ -15,6 +15,7 @@ $.ajaxSetup({
 })
 
 function orcToolbar (init) {
+    let orctoolbar = null
     if(w2ui['orc_toolbar']){
         orcmanager.w2uiGlobal.destroy('orc_toolbar');
     }
@@ -22,7 +23,7 @@ function orcToolbar (init) {
         w2ui.layout.lock('main', 'erro ao sincronizar dados...', true)
     } else {
         const cfg = orcsettings.orc_toolbar
-        $('#orc_toolbar').w2toolbar(cfg);
+        orctoolbar = $('#orc_toolbar').w2toolbar(cfg);
         w2ui.orc_toolbar.on('click', function (event) {
             try {     
                 orcmanager.w2uiGlobal.destroy('orc_sidebar')
@@ -36,10 +37,11 @@ function orcToolbar (init) {
                     }
                 });
             } catch (error) {
-                alert('error', error)
+                w2alert('error', error)
             }
         })
     }   
+    return orctoolbar
 }
 
 function updateOrcSettings (_settings) {
@@ -91,9 +93,10 @@ top.window['orcmanager'] = {
             const _self = this
             $.get(_self.url_path, function (rsp){
                 updateOrcSettings(rsp)
-                orcmanager.viewController._loadOrcToolbar(true)
+                const allUpLoaded = {}
+                allUpLoaded['toolbar'] = orcmanager.viewController._loadOrcToolbar(true)
                 if (typeof callbk !== 'undefined' && typeof callbk === 'function')
-                    callbk()
+                    callbk(allUpLoaded)
             })
         },
         _initApp: initApp,
@@ -158,5 +161,7 @@ top.window['orctokenmanager'] = {
     },
     removeToken: function () {
         localStorage.removeItem(orctokenmanager.keys[0])
+        w2ui.layout.set('top', {title:'.:: Safepremium Group Support ::. [ver1.1.18] :: '})
+        w2ui.layout.refresh('top')
     }
 }

@@ -92,7 +92,7 @@
         if (("onhashchange" in window) && navigator.userAgent.toLowerCase().indexOf('msie') == -1) { // event supported?
             window.onhashchange = function () {
                 var url = window.location.hash.substring(1);
-                //alert(url);
+                //w2alert(url);
                 topNavSelector(url);
             }
         }
@@ -101,7 +101,7 @@
             window.setInterval(function () {
                 if (window.location.hash != storedhash) {
                     storedhash = window.location.hash;
-                    alert(url);
+                    w2alert(url);
                     topNavSelector(url);
                 }
             }, 100);

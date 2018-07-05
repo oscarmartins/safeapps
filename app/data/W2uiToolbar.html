@@ -1,5 +1,14 @@
 <div id="orc_toolbar"></div>
 
+
 <script>
-   orcmanager.viewController.sync()   
+
+    function toolbarLoaded(event) {
+        console.log('the toolbar has been loaded!!')
+        // console.log(event.toolbar)
+    }
+
+    $(function () {
+        orcmanager.viewController.sync(toolbarLoaded)
+    })
 </script>

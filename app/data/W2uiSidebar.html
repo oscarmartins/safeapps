@@ -1,0 +1,25 @@
+<style>
+    #orc_sidebar{
+        height: inherit;
+    }
+</style>
+<div id="orc_sidebar" style="width: 198px;position: absolute;top:0;bottom:0;"></div>
+<script>
+    $(function () {
+    if(w2ui['orc_sidebar']){$().w2destroy('orc_sidebar');}
+    $('#orc_sidebar').w2sidebar({
+        name       : 'orc_sidebar',
+        topHTML    : '<div style="background-color: #eee; padding: 10px 5px; border-bottom: 1px solid silver">oscarrafaelcampos@gmail.com</div>',
+        bottomHTML : '<div style="background-color: #eee; padding: 10px 5px; border-top: 1px solid silver"></div>',
+        nodes : [
+            { id: 'level-1', text: 'Minha Conta', img: 'icon-folder', expanded: true, group: true,
+              nodes: [ 
+                  { id: 'level-1-1', text: 'Perfil', icon: 'fa-home' },
+                  { id: 'level-1-2', text: 'Dados Contacto', icon: 'fa-coffee' },
+                  { id: 'level-1-3', text: 'Dados Acesso', icon: 'fa-comment-alt' }
+                     ]
+            }
+        ]
+    })
+})
+</script>
