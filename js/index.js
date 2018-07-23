@@ -4,7 +4,10 @@ $.ajaxSetup({
         const xtoken = orctokenmanager.retrieveToken()
         if (xtoken) {
             xhr.setRequestHeader('Authorization', xtoken)
-        }      
+        }   
+        
+        xhr.setRequestHeader('fromRoute', top.location.hash)       
+
         if (typeof orcsettings !== "undefined") {                
             xhr.setRequestHeader('severContext', orcsettings.server.context)    
         } else {
@@ -26,10 +29,12 @@ function orcToolbar (init) {
         orctoolbar = $('#orc_toolbar').w2toolbar(cfg);
         w2ui.orc_toolbar.on('click', function (event) {
             try {     
+                top.location.hash = event.object.route
+                debugger
                 orcmanager.w2uiGlobal.destroy('orc_sidebar')
                 w2ui['layout'].hide('left');
                 w2ui['layout'].load('main', event.object.route)
-                w2ui['layout'].load('top', 'app/data/W2uiToolbar.html');
+                w2ui['layout'].load('top', 'app/data/W2uiToolbar.html')
                 //w2ui['layout'].refresh();
                 w2ui['layout'].on('content', function (event) {
                     event.onComplete = function(event) {
@@ -53,6 +58,18 @@ function updateOrcSettings (_settings) {
     if (orcsettings.server) {
         orcsettings.server.serverUrlApi = orcsettings.server.local_server_path
     }
+    if (orcsettings.serverActions) {
+        _serverActions = orcsettings.serverActions
+        if (_serverActions.redirect && _serverActions.redirect.url) {
+            top.orctokenmanager.removeToken();
+            if (top.location.hash !== _serverActions.redirect.url) {
+                top.location.hash = _serverActions.redirect.url 
+                top.location.reload()
+            }            
+            return false
+        }
+    }
+    return true 
 }
 
 function initApp () {
@@ -97,6 +114,11 @@ top.window['orcmanager'] = {
                 allUpLoaded['toolbar'] = orcmanager.viewController._loadOrcToolbar(true)
                 if (typeof callbk !== 'undefined' && typeof callbk === 'function')
                     callbk(allUpLoaded)
+            }).error(function(){
+                w2alert('não foi possivel resolver o pedido, por favor tente mais tarde. Obrigado.')
+                setTimeout(function() {
+                    top.location.href = '/app/data/noauth.html'
+                }, 800)
             })
         },
         _initApp: initApp,
