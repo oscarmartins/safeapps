@@ -6,8 +6,26 @@
 <div id="orc_sidebar" style="width: 198px;position: absolute;top:0;bottom:0;"></div>
 <script>
     $(function () {
+
+    function sidebarLoaded (event) {
+        debugger
+        console.log('the sidebar has been loaded!!')
+        // console.log(event.toolbar)
+    }
+
+    $(function () {
+        orcmanager.viewController.sync(sidebarLoaded)
+    })
+
+
+    
+
+
+    /**
     if(w2ui['orc_sidebar']){$().w2destroy('orc_sidebar');}
-    $('#orc_sidebar').w2sidebar({
+    $('#orc_sidebar').w2sidebar()
+    
+    {
         name       : 'orc_sidebar',
         topHTML    : '<div style="background-color: #eee; padding: 10px 5px; border-bottom: 1px solid silver">oscarrafaelcampos@gmail.com</div>',
         bottomHTML : '<div style="background-color: #eee; padding: 10px 5px; border-top: 1px solid silver"></div>',
@@ -20,6 +38,10 @@
                 ]
             }
         ]
-    })
+    }
+    **/ 
+
+
+
 })
 </script>
