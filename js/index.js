@@ -4,10 +4,12 @@ $.ajaxSetup({
         const xtoken = orctokenmanager.retrieveToken()
         if (xtoken) {
             xhr.setRequestHeader('Authorization', xtoken)
-        }   
-        
-        xhr.setRequestHeader('fromRoute', top.location.hash)       
-
+        }         
+        this.newUrl = top.location.hash
+        if (this.newUrl.indexOf('?') >= 0) {
+            this.newUrl = this.newUrl.substr(0, this.newUrl.indexOf('?'))
+        }
+        xhr.setRequestHeader('fromRoute', this.newUrl)       
         if (typeof orcsettings !== "undefined") {                
             xhr.setRequestHeader('severContext', orcsettings.server.context)    
         } else {
@@ -16,38 +18,6 @@ $.ajaxSetup({
         }
     }
 })
-
-function orcToolbar (init) {
-    let orctoolbar = null
-    if(w2ui['orc_toolbar']){
-        orcmanager.w2uiGlobal.destroy('orc_toolbar');
-    }
-    if (typeof orcsettings === "undefined") {
-        w2ui.layout.lock('main', 'erro ao sincronizar dados...', true)
-    } else {
-        const cfg = orcsettings.orc_toolbar
-        orctoolbar = $('#orc_toolbar').w2toolbar(cfg);
-        w2ui.orc_toolbar.on('click', function (event) {
-            try {     
-                top.location.hash = event.object.route
-                debugger
-                orcmanager.w2uiGlobal.destroy('orc_sidebar')
-                w2ui['layout'].hide('left');
-                w2ui['layout'].load('main', event.object.route)
-                w2ui['layout'].load('top', 'app/data/W2uiToolbar.html')
-                //w2ui['layout'].refresh();
-                w2ui['layout'].on('content', function (event) {
-                    event.onComplete = function(event) {
-                        //orcmanager.viewController.sync()   
-                    }
-                });
-            } catch (error) {
-                w2alert('error', error)
-            }
-        })
-    }   
-    return orctoolbar
-}
 
 function updateOrcSettings (_settings) {
     if (typeof orcsettings === "undefined") {
@@ -73,8 +43,7 @@ function updateOrcSettings (_settings) {
 }
 
 function initApp () {
-    orcmanager.viewController.sync()
-    setTimeout(function (point) {
+    orcmanager.viewController.sync(function (point) {
         if (point === 'init') {
             var pstyle = 'border: 1px solid #dfdfdf; ';
             orcmanager.w2uiGlobal.destroy('layout')
@@ -100,7 +69,24 @@ function initApp () {
             w2ui['layout'].toggle('bottom', window.instant);
             w2ui.layout.lock('main', 'sincronizar...', true);
         }
-    }, 1200, 'init')
+    }.bind(null, 'init'))
+}
+
+function refreshAll () {
+    orcmanager.viewController.sync(function () {
+        setTimeout(orcmanager.viewController.initToolbar, 10)
+        setTimeout(orcmanager.viewController.initSidebar, 20)
+    })
+}
+
+function ServerActions () {
+    this.verify = function (obj) {
+        if (obj && obj.action) {
+            if (obj.action && typeof top[obj.action] === 'function') {
+                setTimeout(top[obj.action], 1)
+            }
+        }
+    }
 }
 
 top.window['orcmanager'] = {
@@ -109,22 +95,76 @@ top.window['orcmanager'] = {
         sync: function (callbk) {
             const _self = this
             $.get(_self.url_path, function (rsp){
-                updateOrcSettings(rsp)
-                const allUpLoaded = {}
-                allUpLoaded['toolbar'] = orcmanager.viewController._loadOrcToolbar(true)
-                //allUpLoaded['sidebar'] = orcmanager.viewController._loadOrcSidebar(true)
-                if (typeof callbk !== 'undefined' && typeof callbk === 'function')
-                    callbk(allUpLoaded)
-            }).error(function(){
-                w2alert('não foi possivel resolver o pedido, por favor tente mais tarde. Obrigado.')
+                if (updateOrcSettings(rsp)) {
+                    if (typeof callbk !== 'undefined' && typeof callbk === 'function') {
+                        callbk(rsp)
+                    }      
+                }                              
+            }).error(function(e){
+                alert('não foi possivel resolver o pedido, por favor tente mais tarde. Obrigado.')
                 setTimeout(function() {
                     top.location.href = '/app/data/noauth.html'
                 }, 800)
             })
         },
         _initApp: initApp,
-        _loadOrcToolbar: orcToolbar,
-        //_loadOrcSidebar : orcSidebar
+        initToolbar: function() {
+            this.orctoolbar = null
+            if(w2ui['orc_toolbar']){
+                orcmanager.w2uiGlobal.destroy('orc_toolbar');
+            }
+            if (typeof orcsettings === "undefined") {
+                w2ui.layout.lock('main', 'toolbarLoaded() erro ao sincronizar dados...', true)
+            } else {
+                const cfg = orcsettings.orc_toolbar
+                this.orctoolbar = $('#orc_toolbar').w2toolbar(cfg);
+                w2ui.orc_toolbar.on('click', function (event) {
+                    try {     
+                        if (event.object.route) {
+                            orcmanager.w2uiGlobal.destroy('orc_sidebar')
+                            top.location.hash = event.object.route                           
+                            w2ui['layout'].load('main', event.object.route)   
+                        } else {
+                            if (event.object.action) {
+                                const serverActions = new ServerActions()
+                                serverActions.verify({action: event.object.action})
+                            }
+                            
+                        }
+                                                     
+                    } catch (error) {
+                        alert('error', error)
+                    }
+                })
+                w2ui.layout.content('top', w2ui.orc_toolbar)
+                w2ui.layout.refresh('top')
+            }
+        },
+        initSidebar: function () {
+            this.orcsidebar = null
+            if(w2ui['orc_sidebar']){
+                orcmanager.w2uiGlobal.destroy('orc_sidebar')
+            }
+            if (typeof orcsettings === "undefined") {
+                w2ui.layout.lock('main', 'sidebarLoaded() erro ao sincronizar dados...', true)
+            } else {
+                this.cfg = orcsettings.orc_sidebar
+                this.orcsidebar = $('#orc_sidebar').w2sidebar(this.cfg)
+                top.w2ui.orc_sidebar.onClick = function (event) {
+                    w2ui.layout.get('main').content = ''
+                    w2ui.layout.refresh('main')
+                    event.onComplete = function () {
+                        this.url = 'app/pages/{pageName}.html'.replace('{pageName}', event.node.id)
+                        w2ui.layout.load('main', this.url, 'slide-left', function () {
+                            console.log('content loaded')
+                        });
+                    }            
+                }
+                w2ui.layout.content('left', w2ui.orc_sidebar)
+                w2ui.layout.refresh('left')
+                w2ui.layout.show('left')
+            }
+        }
     },
     w2uiGlobal: {
         destroy: (w2uiAttrObj) => {
@@ -185,7 +225,9 @@ top.window['orctokenmanager'] = {
     },
     removeToken: function () {
         localStorage.removeItem(orctokenmanager.keys[0])
-        w2ui.layout.set('top', {title:'.:: Safepremium Group Support ::. [ver1.1.18] :: '})
-        w2ui.layout.refresh('top')
+        if (w2ui.layout) {
+            w2ui.layout.set('top', {title:'.:: Safepremium Group Support ::. [ver1.1.18] :: '})
+            w2ui.layout.refresh('top')
+        }        
     }
 }

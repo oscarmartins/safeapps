@@ -31,3 +31,17 @@ p + p {
 input[type=text] {
     padding: 4px !important;
 }
+
+/**
+Pages
+**/
+div.page-title {
+    padding: 1px 10px;
+    background-color: #cadaef;
+}
+div.page-title h1 {
+    color: #444;
+}
+/**
+Pages
+**/

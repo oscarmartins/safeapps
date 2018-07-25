@@ -1,51 +1,19 @@
-<div>
-
-
-    <div style="border: 1px solid silver; background-color: #00ee77; float: left; width: 200px; height: 120px; margin: 5px; padding: 30px; text-align: center">
-        some image
-    </div>
-    <div style="border: 1px solid silver; background-color: #00ee77; float: left; width: 200px; height: 120px; margin: 5px; padding: 30px; text-align: center">
-        some image
-    </div>
-    <div style="border: 1px solid silver; background-color: #00ee77; float: left; width: 200px; height: 120px; margin: 5px; padding: 30px; text-align: center">
-        some image
-    </div>
-    <div style="border: 1px solid silver; background-color: #00ee77; float: left; width: 200px; height: 120px; margin: 5px; padding: 30px; text-align: center">
-        some image
-    </div>
-    <div style="border: 1px solid silver; background-color: #00ee77; float: left; width: 200px; height: 120px; margin: 5px; padding: 30px; text-align: center">
-        some image
-    </div>
-    <div style="border: 1px solid silver; background-color: #00ee77; float: left; width: 200px; height: 120px; margin: 5px; padding: 30px; text-align: center">
-        some image
-    </div>
-    <div style="border: 1px solid silver; background-color: #00ee77; float: left; width: 200px; height: 120px; margin: 5px; padding: 30px; text-align: center">
-        some image
-    </div>
-    <div style="border: 1px solid silver; background-color: #00ee77; float: left; width: 200px; height: 120px; margin: 5px; padding: 30px; text-align: center">
-        some image
-    </div>
-
 
 <script>
         $(function () {
-            debugger
-            w2ui["layout"].set('left', { size: 200, title: ''});
-            w2ui["layout"].refresh('left');
-
-            w2ui['layout'].show('left')
-
-            w2ui['layout'].load('left', 'app/data/W2uiSidebar.html');
-            //w2ui['layout'].load('top', 'app/data/W2uiToolbar.html');
-
+            
             w2ui.layout.set('top', {title:'.:: Safepremium Group Support ::. [ver1.1.18] :: Welcome' })
-            w2ui.layout.refresh('top')
+            w2ui.layout.load('top', 'app/data/W2uiToolbar.html', '', top.orcmanager.viewController.initToolbar)
 
+            w2ui.layout.set('left', { size: 200, title: ''})
+            w2ui.layout.load('left', 'app/data/W2uiSidebar.html', '', top.orcmanager.viewController.initSidebar)
+            
+           
             w2ui.layout.get('main').content = ''
             w2ui.layout.refresh('main')
 
             w2ui.layout.load('main', '/app/data/infoApp.html', 'slide-left', function () {
-                console.log('content loaded');
+                console.log('content loaded')
             });
 
 

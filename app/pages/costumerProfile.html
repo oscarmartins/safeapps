@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 </head>
-
 <body>
+    <div class="page-title">
+        <h1>Perfil de Utilizador</h1>
+    </div>
     <div id="formprofile" style="width: 750px;">
         <div class="w2ui-page page-0">
             <div class="w2ui-field">
@@ -36,12 +37,13 @@
     <script type="text/javascript">
         $(function () {
 
-            if (w2ui.formprofile)
+            if (w2ui.formprofile) {
                 orcmanager.w2uiGlobal.destroy('formprofile')
+            }
+                
             
             $('#formprofile').w2form({
                 name: 'formprofile',
-                header : 'User Profile',
                 url: 'server/post',
                 fields: [{
                         field: 'first_name',
