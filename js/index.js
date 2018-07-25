@@ -17,20 +17,6 @@ $.ajaxSetup({
     }
 })
 
-function orcSidebar () {
-    let orcsidebar = null
-    if(w2ui['orc_sidebar']){
-        orcmanager.w2uiGlobal.destroy('orc_sidebar');
-    }
-    if (typeof orcsettings === "undefined") {
-        w2ui.layout.lock('main', 'erro ao sincronizar dados...', true)
-    } else {
-        const cfg = orcsettings.orc_sidebar
-        orcsidebar = $('#orc_sidebar').w2sidebar(cfg);
-    }
-    return orcsidebar
-}
-
 function orcToolbar (init) {
     let orctoolbar = null
     if(w2ui['orc_toolbar']){
@@ -126,7 +112,7 @@ top.window['orcmanager'] = {
                 updateOrcSettings(rsp)
                 const allUpLoaded = {}
                 allUpLoaded['toolbar'] = orcmanager.viewController._loadOrcToolbar(true)
-                allUpLoaded['sidebar'] = orcmanager.viewController._loadOrcSidebar(true)
+                //allUpLoaded['sidebar'] = orcmanager.viewController._loadOrcSidebar(true)
                 if (typeof callbk !== 'undefined' && typeof callbk === 'function')
                     callbk(allUpLoaded)
             }).error(function(){
@@ -138,7 +124,7 @@ top.window['orcmanager'] = {
         },
         _initApp: initApp,
         _loadOrcToolbar: orcToolbar,
-        _loadOrcSidebar : orcSidebar
+        //_loadOrcSidebar : orcSidebar
     },
     w2uiGlobal: {
         destroy: (w2uiAttrObj) => {
