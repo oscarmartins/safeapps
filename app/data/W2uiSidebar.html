@@ -4,35 +4,3 @@
     }
 </style>
 <div id="orc_sidebar" style="width: 198px;position: absolute;top:0;bottom:0;"></div>
-<script>
-    
-    function sidebarLoaded () {
-
-        this.orcsidebar = null
-        if(w2ui['orc_sidebar']){
-            orcmanager.w2uiGlobal.destroy('orc_sidebar')
-        }
-        if (typeof orcsettings === "undefined") {
-            w2ui.layout.lock('main', 'sidebarLoaded() erro ao sincronizar dados...', true)
-        } else {
-            this.cfg = orcsettings.orc_sidebar
-            this.orcsidebar = $('#orc_sidebar').w2sidebar(this.cfg)
-            top.w2ui.orc_sidebar.onClick = function (event) {
-                w2ui.layout.get('main').content = ''
-                w2ui.layout.refresh('main')
-                event.onComplete = function () {
-                    this.url = 'app/pages/{pageName}.html'.replace('{pageName}', event.node.id)
-                    w2ui.layout.load('main', this.url, 'slide-left', function () {
-                        console.log('content loaded')
-                    });
-                }            
-            }
-        }
-
-        
-    }
-    
-    $(function () {
-        //orcmanager.viewController.sync(sidebarLoaded)
-    })
-</script>

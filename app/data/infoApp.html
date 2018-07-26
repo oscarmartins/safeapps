@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+        
 </head>
 <body>
     <div class="page-title">
@@ -14,6 +15,7 @@
 
 
 <script type="text/javascript">
+
     var isPopupActivated = false;
 
     function orcLoadGrid (name, action, columns, timer, cb) {
@@ -48,10 +50,7 @@
                 { type: 'left', size: 500, resizable: false, style: pstyle, title: 'Users'},
                 //{ type: 'right', size: 200, resizable: true, style: pstyle,},
                 { type: 'main', style: pstyle, resizable: false, title: 'Accounts'}
-            ],
-            onRender: function () { 
-                            
-            }
+            ]
         });
                
         orcLoadGrid('users_sys', 1290, [                

@@ -1,22 +1,20 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
 <script>
         $(function () {
-            
             w2ui.layout.set('top', {title:'.:: Safepremium Group Support ::. [ver1.1.18] :: Welcome' })
-            w2ui.layout.load('top', 'app/data/W2uiToolbar.html', '', top.orcmanager.viewController.initToolbar)
-
+            w2ui.layout.load('top', top.orcmanager.forceGet('app/data/W2uiToolbar.html'), '', top.orcmanager.viewController.initToolbar)
             w2ui.layout.set('left', { size: 200, title: ''})
-            w2ui.layout.load('left', 'app/data/W2uiSidebar.html', '', top.orcmanager.viewController.initSidebar)
-            
-           
+            w2ui.layout.load('left', top.orcmanager.forceGet('app/data/W2uiSidebar.html'), '', top.orcmanager.viewController.initSidebar)
             w2ui.layout.get('main').content = ''
             w2ui.layout.refresh('main')
-
-            w2ui.layout.load('main', '/app/data/infoApp.html', 'slide-left', function () {
+            w2ui.layout.load('main',top.orcmanager.forceGet('/app/data/infoApp.html') , 'slide-left', function () {
                 console.log('content loaded')
             });
-
-
         });
     </script>
-</div>
+
+</body></html>

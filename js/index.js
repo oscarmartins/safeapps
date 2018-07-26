@@ -90,6 +90,9 @@ function ServerActions () {
 }
 
 top.window['orcmanager'] = {
+    forceGet: function (urlPath) {
+        return ('{url}?forceget={pageid}'.replace('{url}', urlPath).replace('{pageid}', new Date().getTime()))
+    },
     viewController: {
         url_path: '//localhost:8081/orcv2/viewController',
         sync: function (callbk) {

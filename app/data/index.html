@@ -6,7 +6,7 @@
                 w2ui["layout"].toggle('top', window.instant);
                 w2ui["layout"].set('top', { size: 62, title: '.:: Safepremium Group Support ::. [ver1.1.18] ' });
                 w2ui["layout"].refresh('top');
-                w2ui['layout'].load('top', 'app/data/W2uiToolbar.html', 'slide-left', top.orcmanager.viewController.initToolbar);
+                w2ui['layout'].load('top', top.orcmanager.forceGet('app/data/W2uiToolbar.html'), 'slide-left', top.orcmanager.viewController.initToolbar);
                 w2ui['layout'].load('main', hash);                
             }, 1000);
         }

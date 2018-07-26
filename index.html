@@ -1,22 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="cache.appcache">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Support Safepremium Group Apps </title>
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-    <link href="css/fontawesome/fontawesome-all.css" rel="stylesheet">
-    <link href="css/w2ui/w2ui-1.5.rc1.min.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="//fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link href="css/fontawesome/fontawesome-all.css?ver=1.01" rel="stylesheet">
+    <link href="css/w2ui/w2ui-1.5.rc1.min.css?ver=1.01" rel="stylesheet" type="text/css" media="screen" />
     <link href="css/index.css" rel="stylesheet" type="text/css" media="screen"  />    
     <script src="js/jquery/jquery.min.js"></script>
     <script src="js/w2ui/w2ui-1.5.rc1.js"></script>
     <script src="js/index.js"></script>
+    
 </head>
 <body>
 
     <div id="layout" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0;"></div>
 
-    <script type="text/javascript">$(function () {setTimeout(orctokenmanager.loadPage, 100)});</script>
+    <script type="text/javascript">
+        $(function () {
+            window.addEventListener('load', function(e) { 
+                window.applicationCache.addEventListener('updateready', function(e) { 
+                    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) { // Browser downloaded a new app cache. 
+                        if (confirm('A new version of this site is available. Load it?')) { 
+                            window.location.reload(); } 
+                        } else { 
+                            // Manifest didn't changed. Nothing new to server. 
+                            setTimeout(orctokenmanager.loadPage, 100)   
+                        } 
+                    }, false); 
+            }, false);
+            setTimeout(orctokenmanager.loadPage, 100)            
+        });
+    </script>
 </body>
 </html>
