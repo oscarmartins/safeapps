@@ -18,32 +18,9 @@
 
     var isPopupActivated = false;
 
-    function orcLoadGrid (name, action, columns, timer, cb) {
-        orcmanager.w2uiGlobal.destroy(name);
-        this.options = { 
-            name: name, 
-            url: orcsettings.server.serverUrlApi, //'app/simulator/list.json',
-            method: 'POST', // need this to avoid 412 error on Safari
-            postData: {
-                REQ_CONTEX : 9999, 
-                REQ_ACTION : action,
-                REQ_INPUTS: {origin:'w2ui'}
-            },
-            columns: columns
-        }
-        setTimeout(function (opt, callBack) {
-            $().w2grid(opt)
-            if (typeof callBack === 'function')
-                setTimeout(callBack, 50)
-        }, (timer || 120), this.options, cb) 
-    }
-
-
     $(function () {
-        var pstyle = 'border: 1px solid #dfdfdf; padding: 5px;';
-        if(w2ui['layout2']){
-            orcmanager.w2uiGlobal.destroy('layout2');
-        }
+        var pstyle = 'border: 1px solid #dfdfdf; padding: 5px;'
+        orcmanager.w2uiGlobal.destroy('layout2')
         $('#layout2').w2layout({
             name: 'layout2',
             panels: [
@@ -51,9 +28,9 @@
                 //{ type: 'right', size: 200, resizable: true, style: pstyle,},
                 { type: 'main', style: pstyle, resizable: false, title: 'Accounts'}
             ]
-        });
+        })
                
-        orcLoadGrid('users_sys', 1290, [                
+        orcmanager.w2uiGlobal.grids.gridBuilder('users_sys', 1290, [                
                 { field: 'id', caption: 'User ID', size: '30%' },
                 { field: 'name', caption: 'User Name', size: '30%' },
                 { field: 'email', caption: 'User Email', size: '40%' }
@@ -63,7 +40,8 @@
                     new ServerActions().verify({action: 'refreshAll'})
                 });
             })
-        orcLoadGrid('accoounts_sys', 12100, [                
+
+        orcmanager.w2uiGlobal.grids.gridBuilder('accoounts_sys', 12100, [                
                 { field: 'user_id', caption: 'CÓDIGO UTLIZADOR', size: '20%' },
                 { field: 'accountStatus', caption: 'ESTADO DA CONTA', size: '20%' },
                 { field: 'nextStage', caption: 'Proximo Estágio', size: '20%' },
@@ -82,51 +60,6 @@
                     new ServerActions().verify({action: 'refreshAll'})
                 });
             })
-
-        /**
-        $().w2grid({ 
-            name: 'users_sys', 
-            url: orcsettings.server.serverUrlApi, //'app/simulator/list.json',
-            method: 'POST', // need this to avoid 412 error on Safari
-            postData: {
-                REQ_CONTEX : 9999, 
-                REQ_ACTION : 1290,
-                REQ_INPUTS: {origin:'w2ui'}
-            },
-            columns: [                
-                { field: 'id', caption: 'User ID', size: '30%' },
-                { field: 'name', caption: 'User Name', size: '30%' },
-                { field: 'email', caption: 'User Email', size: '40%' }
-            ]
-        });    
-
-        
-        $().w2grid({ 
-            name: 'accoounts_sys', 
-            url: orcsettings.server.serverUrlApi, //'app/simulator/list.json',
-            method: 'POST', // need this to avoid 412 error on Safari
-            postData: {
-                REQ_CONTEX : 9999, 
-                REQ_ACTION : 12100,
-                REQ_INPUTS: {origin:'w2ui'}
-            },
-            columns: [                
-                { field: 'user_id', caption: 'CÓDIGO UTLIZADOR', size: '20%' },
-                { field: 'accountStatus', caption: 'ESTADO DA CONTA', size: '20%' },
-                { field: 'nextStage', caption: 'Proximo Estágio', size: '20%' },
-                { field: 'code', caption: 'CÓDIGO SEGURANÇA', size: '20%' },
-                { field: 'dateCreated', caption: 'Data Criação', size: '20%' },
-                { field: 'dateUpdated', caption: 'Ultimo Update', size: '20%' },
-            ]
-        });    
-
-         user_id: {type: Schema.Types.ObjectId, required: true},
-  accountStatus: {type: Number, required: true},
-  nextStage: {type: Number, required: true},
-  code: {type: String},
-  dateCreated: {type: Date},
-  dateUpdated: {type: Date}
-         * **/
 
         setTimeout(() => {
             if (isPopupActivated) {

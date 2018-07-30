@@ -176,7 +176,97 @@ top.window['orcmanager'] = {
                 return true
             }
             return false
-        }
+        },
+        grids: {
+            gridBuilder : (name, action, columns, timer, cb) => {
+                orcmanager.w2uiGlobal.destroy(name);
+                this.options = { 
+                    name: name, 
+                    url: orcsettings.server.serverUrlApi, //'app/simulator/list.json',
+                    method: 'POST', // need this to avoid 412 error on Safari
+                    postData: {
+                        REQ_CONTEX : 9999, 
+                        REQ_ACTION : action,
+                        REQ_INPUTS: {origin:'w2ui'}
+                    },
+                    columns: columns
+                }
+                setTimeout(function (opt, callBack) {
+                    $().w2grid(opt)
+                    if (typeof callBack === 'function')
+                        setTimeout(callBack, 50)
+                }, (timer || 120), this.options, cb) 
+            }
+        },
+        forms: {
+            _readOnly: (w2uiForm, readonly) => {
+                w2uiForm.fields.forEach((elm, pos) => {
+                    $(elm.el).prop('disabled', readonly);
+                    $(elm.el).prop('readonly', readonly);        
+                })
+            },
+            readOnly: (w2uiForm) => {
+                orcmanager.w2uiGlobal.forms._readOnly(w2uiForm, true)
+            },
+            readOnlyOff: (w2uiForm) => {
+                orcmanager.w2uiGlobal.forms._readOnly(w2uiForm, false)
+            },        
+            /** 
+            @formopt: object | w2ui form | 
+            @to: string | id / class e.g element dom
+            @extras: object | readOnly boolean, readonlyAction object,
+            */
+            formBuilder:  (formopt, to, extras) => {
+                this._frmopt = formopt
+                try {
+                    if (this._frmopt.name) {
+                        
+                        orcmanager.w2uiGlobal.destroy(this._frmopt.name)
+    
+                        if (extras.readOnly) {
+                            this._fields = this._frmopt.fields
+                            this._fields.forEach(element => {
+                                if(element.html.attr) {
+                                    element.html.attr = element.html.attr.trim() + ' readonly disabled '
+                                } else {
+                                    element.html.attr = 'readonly disabled '
+                                }
+                            });
+                        }
+    
+                        if (extras.readOnlyAction) { 
+                            extras.actions = extras.actions || {}
+                            this.changeAction = {
+                                'change': function(event){
+                                    event.preventDefault()
+                                    orcmanager.w2uiGlobal.forms.readOnlyOff(this)
+                                }
+                            }
+                            $.extend(extras.actions, this.changeAction)
+                        }
+    
+                        if (!this._frmopt.actions) {
+                            this._frmopt.actions = {
+                                reset: function () {
+                                    this.clear()
+                                },
+                                save: function () {
+                                    this.save()
+                                }
+                            }
+                        }
+                        if (extras.actions) { 
+                            $.extend(this._frmopt.actions, extras.actions)
+                        }
+                    } else {
+                        throw 'name is required!'
+                    }
+                } catch (error) {
+                    console.log('formBuilder () : ', error)
+                } 
+                return $(to).w2form(this._frmopt)
+            }
+        }  
     }
 } 
 
