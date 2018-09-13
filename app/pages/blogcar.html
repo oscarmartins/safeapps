@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <style>
+    
+    div.section-root-panel{
+        position: relative;
+        width: 660px;
+        height: 600px;
+        background-color: aliceblue;
+        overflow: auto;
+    }
+    div.actionbar {
+        position: relative;
+        padding: 1%;
+        background-color: snow;
+    }
+
+    .dialog {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #104343ab;
+    }
+
+    div.dialog-title {
+        position: relative;
+        padding: 10px;
+        background-color: #0065a4;
+    }
+
+    span.title {
+        color: #ffffff;
+    }
+
+    span.close {
+        float: right;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    div.dialog-content {
+        position: relative;
+        background: rgb(250, 250, 250);
+        width: 100%;
+        min-height: 100%;
+    }
+
+a.button3 {
+    display:inline-block;
+    padding:0.3em 1.2em;
+    margin:0 0.3em 0.3em 0;
+    border-radius:0.5em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:#FFFFFF;
+    background-color:#4eb5f1;
+    text-align:center;
+    transition: all 0.2s;
+    background-image: -webkit-linear-gradient(#69b1e0,#4a96d3);
+    background-image: -moz-linear-gradient(#69b1e0,#4a96d3);
+    background-image: -ms-linear-gradient(#69b1e0,#4a96d3);
+    background-image: -o-linear-gradient(#69b1e0,#4a96d3);
+    background-image: linear-gradient(#69b1e0,#4a96d3);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff69b1e0', endColorstr='#ff4a96d3', GradientType=0);
+}
+a.button3:hover{
+    background-color:#4095c6;
+}
+@media all and (max-width:30em){
+    a.button3{
+        display:block;
+        margin:0.2em auto;
+    }
+}
+    
+    </style>
+</head>
+
+<body>
+    <div class="page-title">
+        <h1>Gestor de Blog </h1>
+    </div>
+    <div class="actionbar">
+            <a href="#addNewPub" class="button3" id="addNewPub">Criar Novo Item</a>
+            <a href="#" class="button3">Filtrar</a>
+    </div>    
+
+    <div class="section-root-panel">
+        <div style="border: 1px solid silver; background-color: #00ee77; float: left; width: 200px; height: 120px; margin: 5px; padding: 30px; text-align: center">
+            some image
+        </div>
+    </div>
+
+    <div class="dialog addNewPub" style="display: none;">
+        <div class="dialog-title">
+            <span class="title">Adicionar Nova Publicação</span>
+            <span class="close">x</span>
+        </div>
+        <div class="dialog-content">
+
+                <div class="ui top attached tabular menu">
+                        <a class="item active" data-tab="first">Detalhes Básicos</a>
+                        <a class="item" data-tab="second">Detalhes Técnicos</a>
+                        <a class="item" data-tab="third">Galeria</a>
+                      </div>
+                      <div class="ui bottom attached tab segment active" data-tab="first">
+                            <p>Dados</p>
+                            <form class="ui form">
+                                    <div class="field">
+                                        <div class="five wide field">
+                                            <label>Nome Publicação</label>
+                                            <input type="text" name="pubName" placeholder="Nome Publicação">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="five wide field">
+                                            <label>Data Criação</label>
+                                            <div class="ui calendar" id="example1">
+                                                    <div class="ui input left icon">
+                                                      <i class="calendar icon"></i>
+                                                      <input type="text" placeholder="Date/Time" name="pubCreateDate">
+                                                    </div>
+                                                  </div>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                            <div class="five wide field">
+                                                <label>Stand</label>
+                                                <input type="text" name="pubStand" placeholder="Stand">
+                                            </div>
+                                        </div>
+                                    
+                            </form>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="second">
+                            <p>Detalhes Técnicos</p>
+                            <form class="ui form">
+                                    <div class="field">
+                                        <div class="five wide field">
+                                            <label>Marca</label>
+                                            <input type="text" name="pubMarca" placeholder="Marca">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="field">
+                                        <div class="five wide field">
+                                            <label>Modelo</label>
+                                            <input type="text" name="pubModelo" placeholder="Modelo">
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                            <div class="five wide field">
+                                                <label>Versão</label>
+                                                <input type="text" name="pubVersao" placeholder="Versão">
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                                <div class="five wide field">
+                                                    <label>Combustível</label>
+                                                    <input type="text" name="pubCombustivel" placeholder="Combustível">
+                                                </div>
+                                            </div>
+                                    
+                            </form>
+                      </div>
+                      <div class="ui bottom attached tab segment" data-tab="third">
+                            Galeria
+                      </div>
+
+        </div>
+    </div>
+
+</body>
+
+<script>
+    /**
+     * https://semantic-ui.com/collections/form.html 
+     **/
+    $(document).ready(() => {
+        $('#addNewPub').ready(() => {
+            $('#addNewPub').on('click', (event) => {
+                $('div.dialog.addNewPub').show();
+                $('.ui.form').form('clear');
+                $('.menu .item').tab();
+                $('.ui.checkbox').checkbox();
+                $('.ui.calendar').calendar({
+                    type: 'date'
+                });
+                return false;
+            });
+        });
+        $('div.dialog div.dialog-title span.close').ready(() => {
+            $('div.dialog div.dialog-title span.close').on('click', (event) => {
+                $(event.target).parents().find('div.dialog').hide();
+                return false;
+            });
+        });
+    });
+
+</script>
+
+</html>
