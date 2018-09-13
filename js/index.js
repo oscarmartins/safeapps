@@ -20,11 +20,12 @@ $.ajaxSetup({
 })
 
 function updateOrcSettings (_settings) {
-    if (typeof orcsettings === "undefined") {
-        top.window['orcsettings'] = {}
-    }
+    top.window['orcsettings'] = (typeof orcsettings === "undefined") ? {} : orcsettings
     Object.assign(orcsettings,(typeof _settings === 'object' ? _settings : JSON.parse(_settings)))                
-    //overwrite serverUrlApi
+    /** 
+     * DEVELOPMENT
+     * overwrite serverUrlApi
+     */
     if (orcsettings.server) {
         orcsettings.server.serverUrlApi = orcsettings.server.local_server_path
     }
@@ -220,9 +221,7 @@ top.window['orcmanager'] = {
                 this._frmopt = formopt
                 try {
                     if (this._frmopt.name) {
-                        
                         orcmanager.w2uiGlobal.destroy(this._frmopt.name)
-    
                         if (extras.readOnly) {
                             this._fields = this._frmopt.fields
                             this._fields.forEach(element => {
@@ -233,7 +232,6 @@ top.window['orcmanager'] = {
                                 }
                             });
                         }
-    
                         if (extras.readOnlyAction) { 
                             extras.actions = extras.actions || {}
                             this.changeAction = {
@@ -244,7 +242,6 @@ top.window['orcmanager'] = {
                             }
                             $.extend(extras.actions, this.changeAction)
                         }
-    
                         if (!this._frmopt.actions) {
                             this._frmopt.actions = {
                                 reset: function () {
