@@ -124,7 +124,7 @@ a.button3:hover{
                                     <div class="field">
                                         <div class="five wide field">
                                             <label>Data Criação</label>
-                                            <div class="ui calendar" id="example1">
+                                            <div class="ui calendar" id="date-create">
                                                     <div class="ui input left icon">
                                                       <i class="calendar icon"></i>
                                                       <input type="text" placeholder="Date/Time" name="pubCreateDate">
@@ -159,18 +159,62 @@ a.button3:hover{
                                     </div>
 
                                     <div class="field">
-                                            <div class="five wide field">
-                                                <label>Versão</label>
-                                                <input type="text" name="pubVersao" placeholder="Versão">
+                                        <div class="five wide field">
+                                            <label>Versão</label>
+                                            <input type="text" name="pubVersao" placeholder="Versão">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="five wide field">
+                                            <label>Combustível</label>
+                                            <div class="ui selection dropdown">
+                                            <input name="pubCombustivel" type="hidden">
+                                            <div class="default text">Combustível</div>
+                                            <i class="dropdown icon"></i>
+                                            <div class="menu">
+                                                <div class="item" data-value="gasoleo">Gasoleo</div>
+                                                <div class="item" data-value="gasolina">Gasolina</div>
+                                            </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="field">
-                                                <div class="five wide field">
-                                                    <label>Combustível</label>
-                                                    <input type="text" name="pubCombustivel" placeholder="Combustível">
-                                                </div>
+                                    <div class="field">
+                                        <div class="five wide field">
+                                            <label>Mês de Registo</label>
+                                            <div class="ui selection dropdown">
+                                            <input name="pubMesRegisto" type="hidden">
+                                            <div class="default text">Mês de Registo</div>
+                                            <i class="dropdown icon"></i>
+                                            <div class="menu">
+                                                <div class="item" data-value="01">Janeiro</div>
+                                                <div class="item" data-value="02">Fevereiro</div>
+                                                <div class="item" data-value="03">Março</div>
+                                                <div class="item" data-value="04">Abril</div>
+                                                <div class="item" data-value="05">Maio</div>
+                                                <div class="item" data-value="06">Junho</div>
+                                                <div class="item" data-value="07">Julho</div>
+                                                <div class="item" data-value="08">Agosto</div>
+                                                <div class="item" data-value="09">Setembro</div>
+                                                <div class="item" data-value="10">Outubro</div>
+                                                <div class="item" data-value="11">Novembro</div>
+                                                <div class="item" data-value="12">Dezembro</div>
                                             </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                            <div class="five wide field">
+                                                <label>Ano de Registo</label>
+                                                <div class="ui calendar" id="ano-registo">
+                                                        <div class="ui input left icon">
+                                                          <i class="calendar icon"></i>
+                                                          <input type="text" placeholder="Date/Time" name="pubAnoRegisto">
+                                                        </div>
+                                                      </div>
+                                            </div>
+                                        </div>
                                     
                             </form>
                       </div>
@@ -192,10 +236,13 @@ a.button3:hover{
             $('#addNewPub').on('click', (event) => {
                 $('div.dialog.addNewPub').show();
                 $('.ui.form').form('clear');
-                $('.menu .item').tab();
+                $('.menu .item').tab('change tab', 'first');
                 $('.ui.checkbox').checkbox();
-                $('.ui.calendar').calendar({
+                $('#date-create').calendar({
                     type: 'date'
+                });
+                $('#ano-registo').calendar({
+                    type: 'year'
                 });
                 return false;
             });
