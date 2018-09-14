@@ -81,7 +81,17 @@ a.button3:hover{
         margin:0.2em auto;
     }
 }
-    
+.grid.container {
+  margin-top: 5em;
+}
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
     </style>
 </head>
 
@@ -106,15 +116,16 @@ a.button3:hover{
             <span class="close">x</span>
         </div>
         <div class="dialog-content">
-
+                <form class="ui form">
                 <div class="ui top attached tabular menu">
                         <a class="item active" data-tab="first">Detalhes Básicos</a>
                         <a class="item" data-tab="second">Detalhes Técnicos</a>
                         <a class="item" data-tab="third">Galeria</a>
+                        <a class="item" data-tab="fourth">Guardar / Publicar</a>
                       </div>
                       <div class="ui bottom attached tab segment active" data-tab="first">
                             <p>Dados</p>
-                            <form class="ui form">
+                            
                                     <div class="field">
                                         <div class="five wide field">
                                             <label>Nome Publicação</label>
@@ -127,7 +138,7 @@ a.button3:hover{
                                             <div class="ui calendar" id="date-create">
                                                     <div class="ui input left icon">
                                                       <i class="calendar icon"></i>
-                                                      <input type="text" placeholder="Date/Time" name="pubCreateDate">
+                                                      <input type="text" placeholder="Data Criação" name="pubCreateDate">
                                                     </div>
                                                   </div>
                                         </div>
@@ -139,33 +150,37 @@ a.button3:hover{
                                             </div>
                                         </div>
                                     
-                            </form>
+                           
                       </div>
                       <div class="ui bottom attached tab segment" data-tab="second">
                             <p>Detalhes Técnicos</p>
-                            <form class="ui form">
-                                    <div class="field">
-                                        <div class="five wide field">
-                                            <label>Marca</label>
-                                            <input type="text" name="pubMarca" placeholder="Marca">
-                                        </div>
+                            <div class="three fields">
+                                <div class="field">
+                                    <div class="five  field">
+                                        <label>Marca</label>
+                                        <input type="text" name="pubMarca" placeholder="Marca">
                                     </div>
+                                </div>
+                                
+                                <div class="field">
+                                    <div class="five field">
+                                        <label>Modelo</label>
+                                        <input type="text" name="pubModelo" placeholder="Modelo">
+                                    </div>
+                                </div>
+                            </div>
                                     
+                            
                                     <div class="field">
-                                        <div class="five wide field">
-                                            <label>Modelo</label>
-                                            <input type="text" name="pubModelo" placeholder="Modelo">
-                                        </div>
-                                    </div>
-
-                                    <div class="field">
-                                        <div class="five wide field">
+                                        <div class="five field">
                                             <label>Versão</label>
                                             <input type="text" name="pubVersao" placeholder="Versão">
                                         </div>
                                     </div>
+                                
+                                    <div class="three fields">
                                     <div class="field">
-                                        <div class="five wide field">
+                                        <div class="five  field">
                                             <label>Combustível</label>
                                             <div class="ui selection dropdown">
                                             <input name="pubCombustivel" type="hidden">
@@ -180,7 +195,7 @@ a.button3:hover{
                                     </div>
 
                                     <div class="field">
-                                        <div class="five wide field">
+                                        <div class="five field">
                                             <label>Mês de Registo</label>
                                             <div class="ui selection dropdown">
                                             <input name="pubMesRegisto" type="hidden">
@@ -203,25 +218,113 @@ a.button3:hover{
                                             </div>
                                         </div>
                                     </div>
-
+                                </div>
+                                <div class="two fields">
+                                <div class="field">
+                                        <div class="five wide field">
+                                            <label>Ano de Registo</label>
+                                            <div class="ui calendar" id="ano-registo">
+                                                    <div class="ui input left icon">
+                                                        <i class="calendar icon"></i>
+                                                        <input type="text" placeholder="Ano de Registo" name="pubAnoRegisto">
+                                                    </div>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                    </div>    
                                     <div class="field">
-                                            <div class="five wide field">
-                                                <label>Ano de Registo</label>
-                                                <div class="ui calendar" id="ano-registo">
-                                                        <div class="ui input left icon">
-                                                          <i class="calendar icon"></i>
-                                                          <input type="text" placeholder="Date/Time" name="pubAnoRegisto">
-                                                        </div>
-                                                      </div>
+                                        <div class="five wide field">
+                                            <label>Quilómetros</label>
+                                            <input type="text" name="pubQuilometros" placeholder="Quilómetros">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="five wide field">
+                                            <label>Potência</label>
+                                            <input type="text" name="pubPotencia" placeholder="Potência">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="five wide field">
+                                            <label>Cilindrada</label>
+                                            <input type="text" name="pubCilindrada" placeholder="Cilindrada">
+                                        </div>
+                                    </div><div class="field">
+                                        <div class="five wide field">
+                                            <label>Cor</label>
+                                            <input type="text" name="pubColor" placeholder="Cor">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="five wide field">
+                                            <label>Nº de portas</label>
+                                            <input type="text" name="pubNPorts" placeholder="Nº de portas">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="five wide field">
+                                            <label>Lotação</label>
+                                            <input type="text" name="pubLotacao" placeholder="Lotação">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="five wide field">
+                                            <label>Ar Condicionado</label>
+                                            <input type="text" name="pubAC" placeholder="Ar Condicionado">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="five wide field">
+                                            <label>Condição</label>
+                                            <div class="ui selection dropdown">
+                                            <input name="pubCondStatus" type="hidden">
+                                            <div class="default text">Condição</div>
+                                            <i class="dropdown icon"></i>
+                                            <div class="menu">
+                                                <div class="item" data-value="condNew">Novo</div>
+                                                <div class="item" data-value="condUsed">Usado</div>
+                                            </div>
                                             </div>
                                         </div>
-                                    
-                            </form>
+                                    </div>
+                            
                       </div>
                       <div class="ui bottom attached tab segment" data-tab="third">
-                            Galeria
+                            <p>Galeria</p>
+                            <div class="ui middle aligned center aligned grid container">
+                                    <div class="ui fluid segment">
+                                        <input type="file" onchange="loadFile(event)" class="inputfile" id="embedpollfileinput" />
+                                  
+                                    <label for="embedpollfileinput" class="ui huge red right floated button">
+                                      <i class="ui upload icon"></i> 
+                                      Upload image
+                                    </label>
+                                            <input type="file" onchange="loadFile(event)" class="inputfile" id="embedpollfileinput" />
+                                  
+                                    <label for="embedpollfileinput" class="ui huge green right floated button">
+                                      <i class="ui upload icon"></i> 
+                                      Upload image
+                                    </label>
+                                    </div>
+                                    
+                                  </div>
+                                  <p></p>
+                                  <div class="ui four cards">
+                                        <div class="card">
+                                          <div class="image">
+                                            <img id="output" />
+                                          </div>
+                                          <div class="extra">
+                                            Rating:
+                                            <div class="ui star rating" data-rating="0"></div>
+                                          </div>
+                                        </div>                                        
+                                  </div>
                       </div>
-
+                      <div class="ui bottom attached tab segment" data-tab="fourth">
+                            <p>Publicar</p>
+                      </div>
+                    </form>
         </div>
     </div>
 
@@ -244,6 +347,7 @@ a.button3:hover{
                 $('#ano-registo').calendar({
                     type: 'year'
                 });
+                $(".rating").rating();
                 return false;
             });
         });
@@ -254,6 +358,17 @@ a.button3:hover{
             });
         });
     });
+
+var loadFile = function(event) {
+    debugger;
+    var reader = new FileReader();
+    reader.onload = function(){
+      var output = document.getElementById('output');
+      output.src = reader.result;
+      $('#scard').show();
+    };
+    reader.readAsDataURL(event.target.files[0]);
+};
 
 </script>
 
