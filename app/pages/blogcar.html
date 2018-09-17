@@ -684,12 +684,14 @@ footer a {
                 });
 
                 $('div.dialog button#saveAndPublish').ready(() => {
-                    $('div.dialog button#saveAndPublish').on('click', (event) => {
+                    $('div.dialog button#saveAndPublish').on('click', async (event) => {
+                        event.preventDefault();
                         /**
                         $('div.dialog div.dialog-title span.close').click();
                         clearNewPub();
                         **/
-                        //const result = blogPublisher(event);
+                        const result = await blogPublisher(event);
+
                         /**
                         $.post(orcsettings.server.serverUrlApi, {REQ_CONTEX : 155015, REQ_ACTION : 0, REQ_INPUTS: {origin:'w2ui'}}, (data) => {
                             debugger;
@@ -697,22 +699,9 @@ footer a {
                             alert( "error" );
                         });
                         **/
-                        event.preventDefault();
-                        debugger;
-                        $.ajax(orcsettings.server.serverUrlApi,{
-                            type: "POST",
-                            //url: orcsettings.server.serverUrlApi,
-                            dataType: 'json',
-                            //processData: true,
-                            contentType: 'text/plain',
-                            data : JSON.stringify({REQ_CONTEX : 155015, REQ_ACTION : 0, REQ_INPUTS: {origin:'w2ui'}}), 
-                            success: function(){
-                                alert("Saved! It worked.");
-                            },
-                            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
-                            }
-                        });
+                        
+                        
+                        
 
                         return false;
                     });
@@ -977,12 +966,12 @@ footer a {
     function serviceParams () {
         return {
             REQ_CONTEX : 155015, 
-            REQ_ACTION : 0,
+            REQ_ACTION : 1,
             REQ_INPUTS: {origin:'w2ui'}
         };
     }            
 
-    function blogPublisher (who) {
+    async function blogPublisher (who) {
         let _self = who;
         let data = serviceParams()
         if (_self.currentTarget) {
@@ -994,33 +983,21 @@ footer a {
                 alert('não sei o que fazer ao teu pedido!!!');
             }
         }
-        /**
-        $.ajax({
-            type: "post",
-            url: orcsettings.server.serverUrlApi,
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(data),
-            dataType: 'json',
-            success: function (x,h,r) {
-                if (x.status) {
-                    //alert(x.status);
-                    $('div.dialog div.dialog-title span.close').click();
-                    clearNewPub();
-                }
 
+        $.ajax(orcsettings.server.serverUrlApi,{
+            type: "POST",
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            data : JSON.stringify(data), 
+            success: function(){
+                alert("Saved! It worked.");
+                $('div.dialog div.dialog-title span.close').click();
+                clearNewPub();
             },
-            fail: function (x,h,r) {
-                alert('fail');
-                debugger;
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
             }
         });
-        **/
-       $.post(orcsettings.server.serverUrlApi, data, (data) => {
-           debugger
-       }).fail(function() {
-            alert( "error" );
-        });
-        return true;
     }            
 
     function clearNewPub (showHide) {
