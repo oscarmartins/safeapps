@@ -2,10 +2,10 @@
 <html>
 
 <head>
-    
+
     <style>
-    
-    div.section-root-panel{
+
+        div.section-root-panel{
         position: relative;
         width: 660px;
         height: 600px;
@@ -81,28 +81,361 @@ a.button3:hover{
         margin:0.2em auto;
     }
 }
-.grid.container {
-  margin-top: 5em;
+/**
+body {
+  background-color: #363940;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  position: relative;
 }
-.inputfile {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+**/
+.wrapper  {
+    background-color: #fff;
+    border-radius: 5px;
+    max-width: 100%;
+    align-self: center;
+    box-sizing: border-box;
 }
+
+header {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  display: flex;
+}
+h1 {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: #7A7B7F;
+}
+header span {
+  flex: 1;
+  text-align: right;
+  font-size: 12px;
+  color: #999;
+}
+.ways ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.ways li {
+  align-self: center;
+  flex: 1;
+  background-color: #F5F7FA;
+  text-align: center;
+  cursor: pointer;
+  padding: 15px 0;
+  color: #999;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 1px;
+  border: 1px solid #ddd;
+}
+
+.ways li:first-child {
+  border-right: 0;
+}
+.ways li:last-child {
+  border-left: 0;
+}
+.ways li.active {
+  border: 2px solid #1AA1E5;
+  color: #66676C;
+}
+.ways li.active::before {
+  content: '\f00c';
+  font-family: 'fontawesome';
+  color: #1AA1E5;
+}
+.ways li:not(.active) {
+  padding: 16px 0;
+}
+section {
+  display: none;
+}
+section.active {
+  display: block;
+}
+section input,
+section textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  outline: 0;
+  background-color: #F5F7FA;
+  padding: 10px;
+  margin-bottom: 10px;
+  letter-spacing: 1.4px;
+}
+section textarea {
+  min-height: 200px;
+}
+section select {
+  display: none;
+}
+
+.select-option {
+  background-color: #F5F7FA;
+  color: #999;
+  font-size: 15px;
+  position: relative;
+  cursor: pointer;
+}
+.select-option::before {
+  content: '\f107';
+  font-family: 'fontawesome';
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 9px;
+  margin-right: 10px;
+  font-size: 20px;
+}
+.select-option div:not(.option) {
+  padding: 10px 10px;
+  border: 1px solid #ddd;
+}
+.select-option div:last-child,
+.select-option .head {
+  border-bottom: 1px solid #ddd;
+}
+.select-option .option {
+  display: none;
+}
+.select-option .option div {
+  text-transform: capitalize;
+}
+.select-option.active .option {
+  display: block;
+  position: absolute;
+  width: 100%;
+  background-color: #F5F7FA;
+  box-sizing: border-box;
+  padding: 0;
+  margin-top: -1px;
+  z-index: 2;
+}
+.select-option .option div {
+  border-bottom: 0;
+}
+.images {
+  display: flex;
+  flex-wrap:  wrap;
+  margin-top: 20px;
+}
+.images .img,
+.images .pic {
+  flex-basis: 31%;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+.images .img {
+  width: 112px;
+  height: 200px;
+  background-size: cover;
+  margin-right: 10px;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.images .img:nth-child(3n) {
+  margin-right: 0;
+}
+.images .img span {
+  display: none;
+  text-transform: capitalize;
+  z-index: 2;
+}
+.images .img::after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  transition: opacity .1s ease-in;
+  border-radius: 4px;
+  opacity: 0;
+  position: absolute;
+}
+.images .img:hover::after {
+  display: block;
+  background-color: #000;
+  opacity: .5;
+}
+.images .img:hover span {
+  display: block;
+  color: #fff;
+}
+.images .pic {
+  background-color: #F5F7FA;
+  align-self: center;
+  text-align: center;
+  padding: 40px 0;
+  text-transform: uppercase;
+  color: #848EA1;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 400px) {
+  .wrapper {
+    margin-top: 0;
+  }
+  header {
+    flex-direction: column;
+  }
+  header span {
+    text-align: left;
+    margin-top: 10px;
+  }
+  .ways li,
+  section input, 
+  section textarea,
+  .select-option .head, 
+  .select-option .option div {
+   font-size: 8px;
+  }
+  .images .img,
+  .images .pic {
+    flex-basis: 100%;
+    margin-right: 0;
+  }
+}
+
+.wrapper footer ul {
+  margin: 0;
+  margin-top: 30px;
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+.wrapper footer ul li {
+  flex: 1;
+}
+.wrapper footer li span {
+  text-transform: capitalize;
+  cursor: pointer;
+}
+.wrapper footer li:first-child {
+  color: #999;
+  text-align: left;
+  font-size: 12px;
+}
+.wrapper footer li:first-child span {
+  display: inline-block;
+  border-bottom: 1px solid #ddd;
+}
+.wrapper footer li:last-child {
+  text-align: right;
+}
+.wrapper footer li:last-child span {
+  background-color: #22A4E6;
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 3px;
+}
+
+.notification {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  top: auto;
+  right: auto;
+}
+
+.notification p {
+  margin: 0;
+  padding: 0;
+}
+.notification .btn {
+  padding: 16px 20px;
+  border-radius: 5px;
+  display: flex;
+  margin-bottom: 10px;
+  font-size: 12px;
+  align-items: center;
+  animation: fadeIn .4s ease-in;
+}
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.notification .btn::before {
+  margin-right: 12px;
+  font-family: 'fontawesome';
+  font-size: 15px;
+}
+.notification span {
+  margin-left: 10px;
+  cursor: pointer;
+  flex: 1;
+  text-align: right;
+}
+
+.notification .error {
+  background-color: #ECC8C5;
+  border: 1px solid #BD8181;
+}
+.notification .error span {
+  color: #C79995;
+}
+.notification .error::before {
+  content: '\f05c';
+  color: #B2312F;
+  
+}
+.notification .success {
+  background-color: #DEF2D6;
+  border: 1px solid #B3CEA9;
+}
+.notification .success span {
+  color: #AFC7A7;
+}
+.notification .success::before {
+  content: '\f00c';
+  color: #5A7052;
+}
+
+footer {
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fff;
+  font-size: 12px;
+}
+footer a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 5px;
+}
+
     </style>
 </head>
 
 <body>
     <div class="page-title">
-        <h1>Gestor de Blog </h1>
+        <h1>Garagem Veículos Stock</h1>
     </div>
     <div class="actionbar">
-            <a href="#addNewPub" class="button3" id="addNewPub">Criar Novo Item</a>
-            <a href="#" class="button3">Filtrar</a>
-    </div>    
+            <button id="addNewPub" class="ui active button">
+                <i class="car icon"></i>
+                Novo Veículo
+            </button>
+    </div>
 
     <div class="section-root-panel">
         <div style="border: 1px solid silver; background-color: #00ee77; float: left; width: 200px; height: 120px; margin: 5px; padding: 30px; text-align: center">
@@ -112,219 +445,216 @@ a.button3:hover{
 
     <div class="dialog addNewPub" style="display: none;">
         <div class="dialog-title">
-            <span class="title">Adicionar Nova Publicação</span>
+            <span class="title">Adicionar Veículo</span>
             <span class="close">x</span>
         </div>
         <div class="dialog-content">
-                <form class="ui form">
+            <form class="ui form" autocomplete="off" aria-autocomplete="none">
                 <div class="ui top attached tabular menu">
-                        <a class="item active" data-tab="first">Detalhes Básicos</a>
-                        <a class="item" data-tab="second">Detalhes Técnicos</a>
-                        <a class="item" data-tab="third">Galeria</a>
-                        <a class="item" data-tab="fourth">Guardar / Publicar</a>
-                      </div>
-                      <div class="ui bottom attached tab segment active" data-tab="first">
-                            <p>Dados</p>
-                            
-                                    <div class="field">
-                                        <div class="five wide field">
-                                            <label>Nome Publicação</label>
-                                            <input type="text" name="pubName" placeholder="Nome Publicação">
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="five wide field">
-                                            <label>Data Criação</label>
-                                            <div class="ui calendar" id="date-create">
-                                                    <div class="ui input left icon">
-                                                      <i class="calendar icon"></i>
-                                                      <input type="text" placeholder="Data Criação" name="pubCreateDate">
-                                                    </div>
-                                                  </div>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                            <div class="five wide field">
-                                                <label>Stand</label>
-                                                <input type="text" name="pubStand" placeholder="Stand">
-                                            </div>
-                                        </div>
-                                    
-                           
-                      </div>
-                      <div class="ui bottom attached tab segment" data-tab="second">
-                            <p>Detalhes Técnicos</p>
-                            <div class="three fields">
-                                <div class="field">
-                                    <div class="five  field">
-                                        <label>Marca</label>
-                                        <input type="text" name="pubMarca" placeholder="Marca">
-                                    </div>
-                                </div>
-                                
-                                <div class="field">
-                                    <div class="five field">
-                                        <label>Modelo</label>
-                                        <input type="text" name="pubModelo" placeholder="Modelo">
-                                    </div>
+                    <a class="item active" data-tab="first">Detalhes Básicos</a>
+                    <a class="item" data-tab="second">Detalhes Técnicos</a>
+                    <a class="item" data-tab="third">Galeria</a>
+                    <a class="item" data-tab="fourth">Guardar / Publicar</a>
+                </div>
+                <div class="ui bottom attached tab segment active" data-tab="first">
+                    <p>Dados</p>
+                    <div class="field">
+                        <div class="five wide field">
+                            <label>Nome Publicação</label>
+                            <input type="text" name="pubName" placeholder="Nome Publicação">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="five wide field">
+                            <label>Data Criação</label>
+                            <div class="ui calendar" id="date-create">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" placeholder="Data Criação" name="pubCreateDate">
                                 </div>
                             </div>
-                                    
-                            
-                                    <div class="field">
-                                        <div class="five field">
-                                            <label>Versão</label>
-                                            <input type="text" name="pubVersao" placeholder="Versão">
-                                        </div>
-                                    </div>
-                                
-                                    <div class="three fields">
-                                    <div class="field">
-                                        <div class="five  field">
-                                            <label>Combustível</label>
-                                            <div class="ui selection dropdown">
-                                            <input name="pubCombustivel" type="hidden">
-                                            <div class="default text">Combustível</div>
-                                            <i class="dropdown icon"></i>
-                                            <div class="menu">
-                                                <div class="item" data-value="gasoleo">Gasoleo</div>
-                                                <div class="item" data-value="gasolina">Gasolina</div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="five wide field">
+                            <label>Stand</label>
+                            <input type="text" name="pubStand" placeholder="Stand">
+                        </div>
+                    </div>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="second">
+                    <p>Detalhes Técnicos</p>
+                    <div class="three fields">
+                        <div class="field">
+                            <div class="five  field">
+                                <label>Marca</label>
+                                <input type="text" name="pubMarca" placeholder="Marca">
+                            </div>
+                        </div>
 
-                                    <div class="field">
-                                        <div class="five field">
-                                            <label>Mês de Registo</label>
-                                            <div class="ui selection dropdown">
-                                            <input name="pubMesRegisto" type="hidden">
-                                            <div class="default text">Mês de Registo</div>
-                                            <i class="dropdown icon"></i>
-                                            <div class="menu">
-                                                <div class="item" data-value="01">Janeiro</div>
-                                                <div class="item" data-value="02">Fevereiro</div>
-                                                <div class="item" data-value="03">Março</div>
-                                                <div class="item" data-value="04">Abril</div>
-                                                <div class="item" data-value="05">Maio</div>
-                                                <div class="item" data-value="06">Junho</div>
-                                                <div class="item" data-value="07">Julho</div>
-                                                <div class="item" data-value="08">Agosto</div>
-                                                <div class="item" data-value="09">Setembro</div>
-                                                <div class="item" data-value="10">Outubro</div>
-                                                <div class="item" data-value="11">Novembro</div>
-                                                <div class="item" data-value="12">Dezembro</div>
-                                            </div>
-                                            </div>
-                                        </div>
+                        <div class="field">
+                            <div class="five field">
+                                <label>Modelo</label>
+                                <input type="text" name="pubModelo" placeholder="Modelo">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="three fields">
+                        <div class="three wide field">
+                            <label>Ano de Registo</label>
+                            <div class="ui calendar" id="ano-registo">
+                                <div class="ui input left icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" placeholder="Ano de Registo" name="pubAnoRegisto">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="three wide field">
+                            <label>Versão</label>
+                            <input type="text" name="pubVersao" placeholder="Versão">
+                        </div>
+                    </div>
+
+                    <div class="three fields">
+                        <div class="three wide field">
+                            <label>Combustível</label>
+                            <div class="ui selection dropdown">
+                                <input name="pubCombustivel" type="hidden">
+                                <div class="default text">Combustível</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item" data-value="gasoleo">Gasoleo</div>
+                                    <div class="item" data-value="gasolina">Gasolina</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="three wide field">
+                            <label>Mês de Registo</label>
+                            <div class="ui selection dropdown">
+                                <input name="pubMesRegisto" type="hidden">
+                                <div class="default text">Mês de Registo</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item" data-value="01">Janeiro</div>
+                                    <div class="item" data-value="02">Fevereiro</div>
+                                    <div class="item" data-value="03">Março</div>
+                                    <div class="item" data-value="04">Abril</div>
+                                    <div class="item" data-value="05">Maio</div>
+                                    <div class="item" data-value="06">Junho</div>
+                                    <div class="item" data-value="07">Julho</div>
+                                    <div class="item" data-value="08">Agosto</div>
+                                    <div class="item" data-value="09">Setembro</div>
+                                    <div class="item" data-value="10">Outubro</div>
+                                    <div class="item" data-value="11">Novembro</div>
+                                    <div class="item" data-value="12">Dezembro</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="field">
+                        <div class="five wide field">
+                            <label>Quilómetros</label>
+                            <input type="text" name="pubQuilometros" placeholder="Quilómetros">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="five wide field">
+                            <label>Potência</label>
+                            <input type="text" name="pubPotencia" placeholder="Potência">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="five wide field">
+                            <label>Cilindrada</label>
+                            <input type="text" name="pubCilindrada" placeholder="Cilindrada">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="five wide field">
+                            <label>Cor</label>
+                            <input type="text" name="pubColor" placeholder="Cor">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="five wide field">
+                            <label>Nº de portas</label>
+                            <input type="text" name="pubNPorts" placeholder="Nº de portas">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="five wide field">
+                            <label>Lotação</label>
+                            <input type="text" name="pubLotacao" placeholder="Lotação">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="five wide field">
+                            <label>Ar Condicionado</label>
+                            <input type="text" name="pubAC" placeholder="Ar Condicionado">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="five wide field">
+                            <label>Condição</label>
+                            <div class="ui selection dropdown">
+                                <input name="pubCondStatus" type="hidden">
+                                <div class="default text">Condição</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item" data-value="condNew">Novo</div>
+                                    <div class="item" data-value="condUsed">Usado</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="third">
+
+                    <div class="wrapper">
+                        <header>
+                            <h1>Galeria</h1>
+                            <span></span>
+                        </header>
+                        <div class="sections">
+
+                            <section class="active">
+                                <div class="images">
+                                    <div class="pic">
+                                        adicionar
                                     </div>
                                 </div>
-                                <div class="two fields">
-                                <div class="field">
-                                        <div class="five wide field">
-                                            <label>Ano de Registo</label>
-                                            <div class="ui calendar" id="ano-registo">
-                                                    <div class="ui input left icon">
-                                                        <i class="calendar icon"></i>
-                                                        <input type="text" placeholder="Ano de Registo" name="pubAnoRegisto">
-                                                    </div>
-                                                    </div>
-                                        </div>
-                                    </div>
-                                    </div>    
-                                    <div class="field">
-                                        <div class="five wide field">
-                                            <label>Quilómetros</label>
-                                            <input type="text" name="pubQuilometros" placeholder="Quilómetros">
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="five wide field">
-                                            <label>Potência</label>
-                                            <input type="text" name="pubPotencia" placeholder="Potência">
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="five wide field">
-                                            <label>Cilindrada</label>
-                                            <input type="text" name="pubCilindrada" placeholder="Cilindrada">
-                                        </div>
-                                    </div><div class="field">
-                                        <div class="five wide field">
-                                            <label>Cor</label>
-                                            <input type="text" name="pubColor" placeholder="Cor">
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="five wide field">
-                                            <label>Nº de portas</label>
-                                            <input type="text" name="pubNPorts" placeholder="Nº de portas">
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="five wide field">
-                                            <label>Lotação</label>
-                                            <input type="text" name="pubLotacao" placeholder="Lotação">
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="five wide field">
-                                            <label>Ar Condicionado</label>
-                                            <input type="text" name="pubAC" placeholder="Ar Condicionado">
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="five wide field">
-                                            <label>Condição</label>
-                                            <div class="ui selection dropdown">
-                                            <input name="pubCondStatus" type="hidden">
-                                            <div class="default text">Condição</div>
-                                            <i class="dropdown icon"></i>
-                                            <div class="menu">
-                                                <div class="item" data-value="condNew">Novo</div>
-                                                <div class="item" data-value="condUsed">Usado</div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                            
-                      </div>
-                      <div class="ui bottom attached tab segment" data-tab="third">
-                            <p>Galeria</p>
-                            <div class="ui middle aligned center aligned grid container">
-                                    <div class="ui fluid segment">
-                                        <input type="file" onchange="loadFile(event)" class="inputfile" id="embedpollfileinput" />
-                                  
-                                    <label for="embedpollfileinput" class="ui huge red right floated button">
-                                      <i class="ui upload icon"></i> 
-                                      Upload image
-                                    </label>
-                                            <input type="file" onchange="loadFile(event)" class="inputfile" id="embedpollfileinput" />
-                                  
-                                    <label for="embedpollfileinput" class="ui huge green right floated button">
-                                      <i class="ui upload icon"></i> 
-                                      Upload image
-                                    </label>
-                                    </div>
-                                    
-                                  </div>
-                                  <p></p>
-                                  <div class="ui four cards">
-                                        <div class="card">
-                                          <div class="image">
-                                            <img id="output" />
-                                          </div>
-                                          <div class="extra">
-                                            Rating:
-                                            <div class="ui star rating" data-rating="0"></div>
-                                          </div>
-                                        </div>                                        
-                                  </div>
-                      </div>
-                      <div class="ui bottom attached tab segment" data-tab="fourth">
-                            <p>Publicar</p>
-                      </div>
-                    </form>
+                            </section>
+                        </div>
+
+                        <footer>
+                            <ul>
+                                <li><span id="reset">limpar</span></li>
+                            </ul>
+                        </footer>
+
+                    </div>
+
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="fourth">
+                    <p>Publicar</p>
+
+                    <div class="actionbar">
+                            <button id="saveTrash" class="ui active button">
+                                <i class="save icon"></i>
+                                Guardar sem Publicar
+                            </button>
+                            <button id="saveAndPublish" class="ui active button positive">
+                                <i class="blogger icon"></i>
+                                Guardar e Publicar
+                            </button>
+                    </div>
+
+                </div>
+            </form>
         </div>
     </div>
 
@@ -334,42 +664,400 @@ a.button3:hover{
     /**
      * https://semantic-ui.com/collections/form.html 
      **/
-    $(document).ready(() => {
-        $('#addNewPub').ready(() => {
-            $('#addNewPub').on('click', (event) => {
-                $('div.dialog.addNewPub').show();
-                $('.ui.form').form('clear');
-                $('.menu .item').tab('change tab', 'first');
-                $('.ui.checkbox').checkbox();
-                $('#date-create').calendar({
-                    type: 'date'
-                });
-                $('#ano-registo').calendar({
-                    type: 'year'
-                });
-                $(".rating").rating();
-                return false;
-            });
-        });
-        $('div.dialog div.dialog-title span.close').ready(() => {
-            $('div.dialog div.dialog-title span.close').on('click', (event) => {
-                $(event.target).parents().find('div.dialog').hide();
-                return false;
-            });
-        });
-    });
+        (function ($) {
+            $(document).ready(function () {
 
-var loadFile = function(event) {
-    debugger;
-    var reader = new FileReader();
-    reader.onload = function(){
-      var output = document.getElementById('output');
-      output.src = reader.result;
-      $('#scard').show();
-    };
-    reader.readAsDataURL(event.target.files[0]);
-};
+                $('#addNewPub').ready(() => {
+                    $('#addNewPub').on('click', (event) => {
+                        clearNewPub();
+                        $('div.dialog.addNewPub').show();
+                        return false;
+                    });
+        
+                $('div.dialog button#saveTrash').ready(() => {
+                    $('div.dialog button#saveTrash').on('click', (event) => {
+                        alert('div.dialog button#saveTrash');
+                        $('div.dialog div.dialog-title span.close').click();
+                        clearNewPub();
+                        return false;
+                    });
+                });
 
+                $('div.dialog button#saveAndPublish').ready(() => {
+                    $('div.dialog button#saveAndPublish').on('click', (event) => {
+                        /**
+                        $('div.dialog div.dialog-title span.close').click();
+                        clearNewPub();
+                        **/
+                        //const result = blogPublisher(event);
+                        /**
+                        $.post(orcsettings.server.serverUrlApi, {REQ_CONTEX : 155015, REQ_ACTION : 0, REQ_INPUTS: {origin:'w2ui'}}, (data) => {
+                            debugger;
+                        }).fail(function() {
+                            alert( "error" );
+                        });
+                        **/
+                        event.preventDefault();
+                        debugger;
+                        $.ajax(orcsettings.server.serverUrlApi,{
+                            type: "POST",
+                            //url: orcsettings.server.serverUrlApi,
+                            dataType: 'json',
+                            //processData: true,
+                            contentType: 'text/plain',
+                            data : JSON.stringify({REQ_CONTEX : 155015, REQ_ACTION : 0, REQ_INPUTS: {origin:'w2ui'}}), 
+                            success: function(){
+                                alert("Saved! It worked.");
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+                            }
+                        });
+
+                        return false;
+                    });
+                });
+
+                $('div.dialog div.dialog-title span.close').ready(() => {
+                    $('div.dialog div.dialog-title span.close').on('click', (event) => {
+                        $(event.target).parents().find('div.dialog').hide();
+                        return false;
+                    });
+                });
+
+                generateID()
+                choose()
+                generateOption()
+                selectionOption()
+                removeClass()
+                uploadImage()
+                submit()
+                resetButton()
+                removeNotification()
+                autoRemoveNotification()
+                autoDequeue()
+
+            })})
+        })(jQuery)
+
+                var ID
+                var way = 0
+                var queue = []
+                var fullStock = 10
+                var speedCloseNoti = 1000
+
+                function generateID() {
+                    var text = $('header span')
+                    var newID = ''
+
+                    for (var i = 0; i < 3; i++) {
+                        newID += Math.floor(Math.random() * 3)
+                    }
+
+                    ID = 'ID: 5988' + newID
+                    text.html(ID)
+                }
+
+                function choose() {
+                    var li = $('.ways li')
+                    var section = $('.sections section')
+                    var index = 0
+                    li.on('click', function () {
+                        index = $(this).index()
+                        $(this).addClass('active')
+                        $(this).siblings().removeClass('active')
+
+                        section.siblings().removeClass('active')
+                        section.eq(index).addClass('active')
+                        if (!way) {
+                            way = 1
+                        } else {
+                            way = 0
+                        }
+                    })
+                }
+
+                function generateOption() {
+                    var select = $('select option')
+                    var selectAdd = $('.select-option .option')
+                    $.each(select, function (i, val) {
+                        $('.select-option .option').append('<div rel="' + $(val).val() +
+                            '">' + $(val).html() + '</div>')
+                    })
+                }
+
+                function selectionOption() {
+                    var select = $('.select-option .head')
+                    var option = $('.select-option .option div')
+
+                    select.on('click', function (event) {
+                        event.stopPropagation()
+                        $('.select-option').addClass('active')
+                    })
+
+                    option.on('click', function () {
+                        var value = $(this).attr('rel')
+                        $('.select-option').removeClass('active')
+                        select.html(value)
+
+                        $('select#category').val(value)
+                    })
+                }
+
+                function removeClass() {
+                    $('body').on('click', function () {
+                        $('.select-option').removeClass('active')
+                    })
+                }
+
+                function uploadImage() {
+                    var button = $('.images .pic')
+                    var uploader = $('<input type="file" accept="image/*" multiple />')
+                    var images = $('.images')
+
+                    button.on('click', function () {
+                        uploader.click()
+                    })
+
+                    uploader.on('change', function () {
+                        let allImg = event.currentTarget.files;
+                        var reader;
+                        $(allImg).each(function (pos, file) {
+                            reader = new FileReader()
+                            reader.onload = function (event) {
+                                images.prepend(
+                                    '<div class="img" style="background-image: url(\'' +
+                                    event.target.result + '\');" rel="' +
+                                    event.target.result +
+                                    '"><span>remover</span></div>')
+                            }
+                            reader.readAsDataURL(file);
+                        });
+                    })
+
+                    images.on('click', '.img', function () {
+                        $(this).remove()
+                    })
+
+                }
+
+                function submit() {
+                    var button = $('#send')
+
+                    button.on('click', function () {
+                        if (!way) {
+                            var title = $('#title')
+                            var cate = $('#category')
+                            var images = $('.images .img')
+                            var imageArr = []
+
+
+                            for (var i = 0; i < images.length; i++) {
+                                imageArr.push({
+                                    url: $(images[i]).attr('rel')
+                                })
+                            }
+
+                            var newStock = {
+                                title: title.val(),
+                                category: cate.val(),
+                                images: imageArr,
+                                type: 1
+                            }
+
+                            saveToQueue(newStock)
+                        } else {
+                            // discussion
+                            var topic = $('#topic')
+                            var message = $('#msg')
+
+                            var newStock = {
+                                title: topic.val(),
+                                message: message.val(),
+                                type: 2
+                            }
+
+                            saveToQueue(newStock)
+                        }
+                    })
+                }
+
+                function removeNotification() {
+                    var close = $('.notification')
+                    close.on('click', 'span', function () {
+                        var parent = $(this).parent()
+                        parent.fadeOut(300)
+                        setTimeout(function () {
+                            parent.remove()
+                        }, 300)
+                    })
+                }
+
+                function autoRemoveNotification() {
+                    setInterval(function () {
+                        var notification = $('.notification')
+                        var notiPage = $(notification).children('.btn')
+                        var noti = $(notiPage[0])
+
+                        setTimeout(function () {
+                            setTimeout(function () {
+                                noti.remove()
+                            }, speedCloseNoti)
+                            noti.fadeOut(speedCloseNoti)
+                        }, speedCloseNoti)
+                    }, speedCloseNoti)
+                }
+
+                function autoDequeue() {
+                    var notification = $('.notification')
+                    var text
+
+                    setInterval(function () {
+
+                        if (queue.length > 0) {
+                            if (queue[0].type == 2) {
+                                text = ' Your discusstion is sent'
+                            } else {
+                                text = ' Your order is allowed.'
+                            }
+
+                            notification.append(
+                                '<div class="success btn"><p><strong>Success:</strong>' +
+                                text +
+                                '</p><span><i class=\"fa fa-times\" aria-hidden=\"true\"></i></span></div>'
+                            )
+                            queue.splice(0, 1)
+
+                        }
+                    }, 10000)
+                }
+
+                function resetButton() {
+                    var resetbtn = $('#reset')
+                    resetbtn.on('click', function () {
+                        reset()
+                    })
+                }
+
+                // helpers
+                function saveToQueue(stock) {
+                    var notification = $('.notification')
+                    var check = 0
+
+                    if (queue.length <= fullStock) {
+                        if (stock.type == 2) {
+                            if (!stock.title || !stock.message) {
+                                check = 1
+                            }
+                        } else {
+                            if (!stock.title || !stock.category || stock.images == 0) {
+                                check = 1
+                            }
+                        }
+
+                        if (check) {
+                            notification.append(
+                                '<div class="error btn"><p><strong>Error:</strong> Please fill in the form.</p><span><i class=\"fa fa-times\" aria-hidden=\"true\"></i></span></div>'
+                            )
+                        } else {
+                            notification.append(
+                                '<div class="success btn"><p><strong>Success:</strong> ' + ID +
+                                ' is submitted.</p><span><i class=\"fa fa-times\" aria-hidden=\"true\"></i></span></div>'
+                            )
+                            queue.push(stock)
+                            reset()
+                        }
+                    } else {
+                        notification.append(
+                            '<div class="error btn"><p><strong>Error:</strong> Please waiting a queue.</p><span><i class=\"fa fa-times\" aria-hidden=\"true\"></i></span></div>'
+                        )
+                    }
+                }
+
+    function serviceParams () {
+        return {
+            REQ_CONTEX : 155015, 
+            REQ_ACTION : 0,
+            REQ_INPUTS: {origin:'w2ui'}
+        };
+    }            
+
+    function blogPublisher (who) {
+        let _self = who;
+        let data = serviceParams()
+        if (_self.currentTarget) {
+            if (_self.currentTarget.id === 'saveTrash') {
+                data.REQ_ACTION = 100200;
+            } else if (_self.currentTarget.id === 'saveAndPublish') {
+                data.REQ_ACTION = 100400;
+            } else {
+                alert('não sei o que fazer ao teu pedido!!!');
+            }
+        }
+        /**
+        $.ajax({
+            type: "post",
+            url: orcsettings.server.serverUrlApi,
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function (x,h,r) {
+                if (x.status) {
+                    //alert(x.status);
+                    $('div.dialog div.dialog-title span.close').click();
+                    clearNewPub();
+                }
+
+            },
+            fail: function (x,h,r) {
+                alert('fail');
+                debugger;
+            }
+        });
+        **/
+       $.post(orcsettings.server.serverUrlApi, data, (data) => {
+           debugger
+       }).fail(function() {
+            alert( "error" );
+        });
+        return true;
+    }            
+
+    function clearNewPub (showHide) {
+        reset();
+        $('.ui.form').form('clear');
+        $('.menu .item').tab('change tab', 'first');
+        $('.ui.checkbox').checkbox();
+        $('#date-create').calendar({type: 'date'});
+        $('#ano-registo').calendar({type: 'year'});
+        $(".rating").rating();
+    }            
+
+    function reset() {
+
+        $('#title').val('')
+        $('.select-option .head').html('Category')
+        $('select#category').val('')
+
+        var images = $('.images .img')
+        for (var i = 0; i < images.length; i++) {
+            $(images)[i].remove()
+        }
+
+        var topic = $('#topic').val('')
+        var message = $('#msg').val('')
+    }
+
+    var loadFile = function (event) {
+        debugger;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('output');
+            output.src = reader.result;
+            $('#scard').show();
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
 </script>
 
 </html>

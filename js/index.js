@@ -104,7 +104,7 @@ top.window['orcmanager'] = {
                         callbk(rsp)
                     }      
                 }                              
-            }).error(function(e){
+            }).fail(function(e){
                 alert('não foi possivel resolver o pedido, por favor tente mais tarde. Obrigado.')
                 setTimeout(function() {
                     top.location.href = '/app/data/noauth.html'

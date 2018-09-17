@@ -41,6 +41,8 @@ div.page-title {
 }
 div.page-title h1 {
     color: #444;
+    min-height: 1rem !important;
+    font-size: 2rem !important;
 }
 div.pages.cache {
     cursor: pointer;
