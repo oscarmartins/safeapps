@@ -449,7 +449,7 @@ footer a {
             <span class="close">x</span>
         </div>
         <div class="dialog-content">
-            <form class="ui form" autocomplete="off" aria-autocomplete="none">
+            <form name="addNewPub" class="ui form" autocomplete="off" aria-autocomplete="none">
                 <div class="ui top attached tabular menu">
                     <a class="item active" data-tab="first">Detalhes Básicos</a>
                     <a class="item" data-tab="second">Detalhes Técnicos</a>
@@ -691,7 +691,7 @@ footer a {
                         clearNewPub();
                         **/
                         const result = await blogPublisher(event);
-
+                        
                         /**
                         $.post(orcsettings.server.serverUrlApi, {REQ_CONTEX : 155015, REQ_ACTION : 0, REQ_INPUTS: {origin:'w2ui'}}, (data) => {
                             debugger;
@@ -977,25 +977,48 @@ footer a {
         if (_self.currentTarget) {
             if (_self.currentTarget.id === 'saveTrash') {
                 data.REQ_ACTION = 100200;
+                data.REQ_INPUTS['published'] = false;
             } else if (_self.currentTarget.id === 'saveAndPublish') {
                 data.REQ_ACTION = 100400;
+                data.REQ_INPUTS['published'] = true;
             } else {
                 alert('não sei o que fazer ao teu pedido!!!');
             }
         }
+        
+        $('form[name="addNewPub"]').serializeArray().forEach((a)=>{
+            data.REQ_INPUTS[a.name] = a.value
+        })
+        data.REQ_INPUTS['pubGalery'] = []
+        $('.images .img').each((e, e1)=>{
+            var img = e1.getAttribute('rel')
+            debugger
+            data.REQ_INPUTS.pubGalery.push(img)
+        })
 
         $.ajax(orcsettings.server.serverUrlApi,{
             type: "POST",
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             data : JSON.stringify(data), 
-            success: function(){
-                alert("Saved! It worked.");
-                $('div.dialog div.dialog-title span.close').click();
-                clearNewPub();
+            success: function(data){
+                if (data) {
+                    if (data.status) {
+                        if (data.status === 'error') {
+                            alert(data.message)
+                        } else if (data.status === 'success') {
+                        
+                            $('div.dialog div.dialog-title span.close').click()
+                            clearNewPub()
+
+                        } else {
+
+                        }
+                    }
+                }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+                alert(String(XMLHttpRequest.responseText));
             }
         });
     }            

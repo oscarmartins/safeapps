@@ -1,5 +1,37 @@
+/** */
 w2utils.settings.dataType = 'JSON'
+/** */
 $.ajaxSetup({
+    dataFilter: function (data, type) {
+        //modify the data
+        if (type === 'json') {
+            if (data) {
+                let dataResp = data
+                if (typeof dataResp === 'string') {
+                    dataResp = JSON.parse(dataResp)
+                }
+                if (dataResp.status && dataResp.status === 'error') {
+                    if (dataResp.message) {
+                        let msg = dataResp.message
+                        if (msg.startsWith('[')) {
+                            if (msg.substring(msg.indexOf('[') + 1, msg.indexOf(']')) === 'SECURITY'){
+                                data = null
+                                w2ui.layout.lock('main', 'terminar sessão ' + msg.substring('SECURITY'.length + 3))
+                                setTimeout(function() {
+                                    if (w2ui && w2ui.layout) {
+                                        w2ui.layout.lock('main', 'a redirecionar...', true)
+                                        w2ui.orc_toolbar.click('logout')
+                                    }
+                                }, 200)
+                            }  
+                        }
+                    }
+                }
+            }
+        }
+        /***/
+        return data;
+    },
     beforeSend: function (xhr) {
         const xtoken = orctokenmanager.retrieveToken()
         if (xtoken) {
