@@ -990,10 +990,19 @@ footer a {
             data.REQ_INPUTS[a.name] = a.value
         })
         data.REQ_INPUTS['pubGalery'] = []
+        let objb64 = (b64) => {
+            var newID = ''
+            for (var i = 0; i < 3; i++) {
+                newID += Math.floor(Math.random() * 3)
+            }
+            return {
+                id: newID,
+                base64: b64 
+            }
+        };
         $('.images .img').each((e, e1)=>{
-            var img = e1.getAttribute('rel')
-            debugger
-            data.REQ_INPUTS.pubGalery.push(img)
+            var img = e1.getAttribute('rel');
+            data.REQ_INPUTS.pubGalery.push(objb64(img));
         })
 
         $.ajax(orcsettings.server.serverUrlApi,{
