@@ -5,12 +5,8 @@
 
     <style>
 
-        div.section-root-panel{
-        position: relative;
-        width: 660px;
-        height: 600px;
-        background-color: aliceblue;
-        overflow: auto;
+    div.section-root-panel{
+        padding: 1em;
     }
     div.actionbar {
         position: relative;
@@ -422,10 +418,8 @@ footer a {
   border-bottom: 1px solid #fff;
   padding-bottom: 5px;
 }
-
-    </style>
+</style>
 </head>
-
 <body>
     <div class="page-title">
         <h1>Garagem Veículos Stock</h1>
@@ -437,13 +431,11 @@ footer a {
             </button>
     </div>
 
-    <div class="section-root-panel">
-        <div style="border: 1px solid silver; background-color: #00ee77; float: left; width: 200px; height: 120px; margin: 5px; padding: 30px; text-align: center">
-            some image
-        </div>
+    <div class="section-root-panel ui link cards">
+        
     </div>
 
-    <div class="dialog addNewPub" style="display: none;">
+    <div class="dialog addNewPub " style="display: none;">
         <div class="dialog-title">
             <span class="title">Adicionar Veículo</span>
             <span class="close">x</span>
@@ -511,26 +503,6 @@ footer a {
                             </div>
                         </div>
                         <div class="three wide field">
-                            <label>Versão</label>
-                            <input type="text" name="pubVersao" placeholder="Versão">
-                        </div>
-                    </div>
-
-                    <div class="three fields">
-                        <div class="three wide field">
-                            <label>Combustível</label>
-                            <div class="ui selection dropdown">
-                                <input name="pubCombustivel" type="hidden">
-                                <div class="default text">Combustível</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    <div class="item" data-value="gasoleo">Gasoleo</div>
-                                    <div class="item" data-value="gasolina">Gasolina</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="three wide field">
                             <label>Mês de Registo</label>
                             <div class="ui selection dropdown">
                                 <input name="pubMesRegisto" type="hidden">
@@ -552,6 +524,29 @@ footer a {
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="three fields">
+
+                        <div class="three wide field">
+                            <label>Versão</label>
+                            <input type="text" name="pubVersao" placeholder="Versão">
+                        </div>
+
+                        <div class="three wide field">
+                            <label>Combustível</label>
+                            <div class="ui selection dropdown">
+                                <input name="pubCombustivel" type="hidden">
+                                <div class="default text">Combustível</div>
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item" data-value="gasoleo">Gasoleo</div>
+                                    <div class="item" data-value="gasolina">Gasolina</div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        
                     </div>
                     
                     <div class="field">
@@ -666,50 +661,37 @@ footer a {
      **/
         (function ($) {
             $(document).ready(function () {
-
                 $('#addNewPub').ready(() => {
                     $('#addNewPub').on('click', (event) => {
-                        clearNewPub();
+                        $('div.dialog.addNewPub .dialog-title').find('.title').text('Adicionar Veículo');
                         $('div.dialog.addNewPub').show();
-                        return false;
+                        //$('div.dialog.addNewPub').modal('show');
+                        //$('div.dialog.addNewPub').modal({
+                        //    closable: false
+                        //});
+                        $('.section-root-panel').hide();
+                        clearNewPub()
+                        generateID()
+                        return false
                     });
-        
                 $('div.dialog button#saveTrash').ready(() => {
-                    $('div.dialog button#saveTrash').on('click', (event) => {
-                        alert('div.dialog button#saveTrash');
-                        $('div.dialog div.dialog-title span.close').click();
-                        clearNewPub();
+                    $('div.dialog button#saveTrash').on('click',  async (event) => {
+                        event.preventDefault();
+                        const result = await blogPublisher(event);
                         return false;
                     });
                 });
-
                 $('div.dialog button#saveAndPublish').ready(() => {
                     $('div.dialog button#saveAndPublish').on('click', async (event) => {
                         event.preventDefault();
-                        /**
-                        $('div.dialog div.dialog-title span.close').click();
-                        clearNewPub();
-                        **/
                         const result = await blogPublisher(event);
-                        
-                        /**
-                        $.post(orcsettings.server.serverUrlApi, {REQ_CONTEX : 155015, REQ_ACTION : 0, REQ_INPUTS: {origin:'w2ui'}}, (data) => {
-                            debugger;
-                        }).fail(function() {
-                            alert( "error" );
-                        });
-                        **/
-                        
-                        
-                        
-
                         return false;
                     });
                 });
-
                 $('div.dialog div.dialog-title span.close').ready(() => {
                     $('div.dialog div.dialog-title span.close').on('click', (event) => {
                         $(event.target).parents().find('div.dialog').hide();
+                        $('.section-root-panel').show();
                         return false;
                     });
                 });
@@ -725,6 +707,7 @@ footer a {
                 removeNotification()
                 autoRemoveNotification()
                 autoDequeue()
+                blogReadAll() 
 
             })})
         })(jQuery)
@@ -802,9 +785,14 @@ footer a {
                 function uploadImage() {
                     var button = $('.images .pic')
                     var uploader = $('<input type="file" accept="image/*" multiple />')
+                    uploader.attr('id', ID.split(':')[1].trim())
                     var images = $('.images')
 
                     button.on('click', function () {
+                        let id = ID.split(':')[1].trim()
+                        if (uploader.attr('id') !== id) {
+                            uploader.val('')
+                        }
                         uploader.click()
                     })
 
@@ -969,7 +957,249 @@ footer a {
             REQ_ACTION : 1,
             REQ_INPUTS: {origin:'w2ui'}
         };
-    }            
+    } 
+
+    async function service (type, data, callb) {
+        return $.ajax(orcsettings.server.serverUrlApi,{
+            type: type,
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            data : JSON.stringify(data), 
+            success: callb,
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert(String(XMLHttpRequest.responseText));
+            }
+        });
+    }
+    async function post (data, callb) {
+        return await service('POST', data, callb)
+    }
+    function blogReadAll () {
+        debugger
+        let data = serviceParams();
+        data.REQ_ACTION = 100600;
+        data.REQ_INPUTS['SUBACTION'] = 'readAll';
+        data.REQ_INPUTS['SUBVALUE'] = true;
+        post(data, (data) => {
+            try {
+                if (data.status === 'success') {
+                    if (data.dataresponse && data.dataresponse.status === 200) {
+                        if (data.dataresponse.output && data.dataresponse.output.iook) {
+                            let sectionRoot = $('div.section-root-panel');
+                            sectionRoot.empty();
+                            let respdata = data.dataresponse.output.data;
+                            let local = null;    
+                            let images = null;
+                            let card = null;
+                            let cardId = null;
+                            let isPublished = null;
+                            for (let u = 0; u < respdata.length; u++) {
+                                debugger
+                                local = respdata[u];
+                                images = local.pubGalery;
+                                cardId = local._id;
+                                isPublished = 'right floated eye icon published ' + (local.published ? '' : 'slash')
+                                card = $('<div>', {id:cardId,class: 'card'}).append(
+                                    $('<div>', {class: 'image'}).append(
+                                        $('<img>', {src: images[0].base64})
+                                    ),
+                                    $('<div>', {class: 'content'}).append(
+                                        $('<i>', {class: isPublished}),
+                                        $('<div>', {class: 'header'}).text(local.pubName),
+                                        $('<div>', {class: 'meta'}).append(
+                                            $('<a>').text(local.pubMarca),
+                                        ),
+                                        $('<div>', {class: 'description'}).text(local.pubModelo),
+                                    ),
+                                    $('<div>', {class: 'ui bottom attached basic buttons'}).append(
+                                        $('<button>', {class: 'ui button'}).append(
+                                            $('<i>', {class: 'pencil icon'})
+                                        ),
+                                        $('<button>', {class: 'ui button'}).append(
+                                            $('<i>', {class: 'trash icon'})
+                                        )
+                                    )
+                                );
+                                sectionRoot.append(card);
+                                card.find('i.eye.published').off().on('click', function (event) {
+                                    event.preventDefault();
+                                    const currentId = $(this).parents('div.card').attr('id');
+                                    let changePSus;
+                                    if ($(this).hasClass('slash')){
+                                        changePSus = changePubStatus(currentId, true).then(function (data) {
+                                            $(this).removeClass('slash');
+                                        }.bind(this));
+                                    } else {
+                                        changePSus = changePubStatus(currentId, false).then(function (data) {
+                                            $(this).addClass('slash');
+                                        }.bind(this));
+                                        
+                                    }
+                                });
+                                card.find('button.ui').off().on('click',async function (event) {
+                                    event.preventDefault();
+                                    const currentId = $(this).parents('div.card').attr('id');
+                                    if ($(this).find('i').hasClass('pencil')) {
+                                        //editar
+                                        const result = await findById(currentId).then(function (e) {
+                                            if (e.dataresponse && e.dataresponse.output) {
+                                                if (e.dataresponse.output.iook) {
+                                                    return e.dataresponse.output.data;
+                                                }
+                                            } else if (e.status === 'error') {
+                                                alert(e.message);
+                                                return null;
+                                            } 
+                                        
+                                        }).catch(function(err) {
+                                            alert(err)
+                                        });
+                                        if (result) {
+                                            debugger;
+                                            $('div.dialog.addNewPub .dialog-title').find('.title').text('Actualizar Detalhes Veículo');
+                                            $('.section-root-panel').hide();
+                                            $('div.dialog.addNewPub').show();
+                                            clearNewPub();
+                                            generateID();
+                                            populateForm($('form')[0], result);
+                                        }
+                                    } else if ($(this).find('i').hasClass('trash')) {
+                                        if (confirm('Tem a certeza que pretende remover esta publicação?')) {
+                                            deletePubById(currentId).then(function (e) {
+                                                if (e.dataresponse && e.dataresponse.output) {
+                                                    if (e.dataresponse.output.iook) {
+                                                        alert(e.dataresponse.output.success);
+                                                        blogReadAll();
+                                                    }
+                                                } else if (e.status === 'error') {
+                                                    alert(e.message);
+                                                } 
+                                            
+                                            }).catch(function(err) {
+                                                alert(err)
+                                            });
+                                        }
+                                    } else {
+                                        alert('no action');
+                                    }
+                                    return false;
+                                });
+                            }
+
+                            sectionRoot.show();
+                        }
+                    } else {
+                        let msg = data.dataresponse.message; 
+                        if (!msg && data.dataresponse.output) {
+                            msg = data.dataresponse.output.error;
+                        } else {
+                            msg = 'error desconhecido'
+                        }
+                        throw(msg);
+                    }
+                } else {
+                    throw(data.message);
+                }
+            } catch (error) {
+                alert(error)
+            }
+        });
+    } 
+
+    async function deletePubById (theid) {
+        let data = serviceParams();
+        data.REQ_ACTION = 100600;
+        data.REQ_INPUTS['SUBACTION'] = 'deleteById';
+        data.REQ_INPUTS['SUBVALUE'] = true;
+        data.REQ_INPUTS['id'] = theid;
+        return await post(data, (data) => {
+            try {
+                if (data.status === 'success') {
+                    if (data.dataresponse && data.dataresponse.status === 200) {
+                        if (data.dataresponse.output && data.dataresponse.output.iook) {
+                            return data.dataresponse.output.success;
+                        }
+                    } else {
+                        let msg = data.dataresponse.message; 
+                        if (!msg && data.dataresponse.output) {
+                            msg = data.dataresponse.output.error;
+                        } else {
+                            msg = 'error desconhecido'
+                        }
+                        throw(msg);
+                    }
+                } else {
+                    throw(data.message);
+                }
+            } catch (error) {
+                return error;
+            }
+            return null;
+        });
+    }
+
+    async function findById (theid) {
+        let data = serviceParams();
+        data.REQ_ACTION = 100600;
+        data.REQ_INPUTS['SUBACTION'] = 'findById';
+        data.REQ_INPUTS['SUBVALUE'] = true;
+        data.REQ_INPUTS['id'] = theid;
+        return await post(data, (data) => {
+            try {
+                if (data.status === 'success') {
+                    if (data.dataresponse && data.dataresponse.status === 200) {
+                        if (data.dataresponse.output && data.dataresponse.output.iook) {
+                            return data.dataresponse.output;
+                        }
+                    } else {
+                        let msg = data.dataresponse.message; 
+                        if (!msg && data.dataresponse.output) {
+                            msg = data.dataresponse.output.error;
+                        } else {
+                            msg = 'error desconhecido'
+                        }
+                        throw(msg);
+                    }
+                } else {
+                    throw(data.message);
+                }
+            } catch (error) {
+                return error;
+            }
+            return null;
+        });
+    }
+    async function changePubStatus (theid, newstatus) {
+        let data = serviceParams();
+        data.REQ_ACTION = 100600;
+        data.REQ_INPUTS['SUBACTION'] = 'publishedById';
+        data.REQ_INPUTS['SUBVALUE'] = newstatus;
+        data.REQ_INPUTS['id'] = theid;
+        return await post(data, (data) => {
+            try {
+                if (data.status === 'success') {
+                    if (data.dataresponse && data.dataresponse.status === 200) {
+                        if (data.dataresponse.output && data.dataresponse.output.iook) {
+                            return data.dataresponse.output.success;
+                        }
+                    } else {
+                        let msg = data.dataresponse.message; 
+                        if (!msg && data.dataresponse.output) {
+                            msg = data.dataresponse.output.error;
+                        } else {
+                            msg = 'error desconhecido'
+                        }
+                        throw(msg);
+                    }
+                } else {
+                    throw(data.message);
+                }
+            } catch (error) {
+                return error;
+            }
+            return null;
+        });
+    }
 
     async function blogPublisher (who) {
         let _self = who;
@@ -1005,29 +1235,21 @@ footer a {
             data.REQ_INPUTS.pubGalery.push(objb64(img));
         })
 
-        $.ajax(orcsettings.server.serverUrlApi,{
-            type: "POST",
-            dataType: 'json',
-            contentType: "application/json; charset=utf-8",
-            data : JSON.stringify(data), 
-            success: function(data){
-                if (data) {
-                    if (data.status) {
-                        if (data.status === 'error') {
-                            alert(data.message)
-                        } else if (data.status === 'success') {
-                        
-                            $('div.dialog div.dialog-title span.close').click()
-                            clearNewPub()
+        post(data, (data) => {
+            if (data) {
+                debugger
+                if (data.status) {
+                    if (data.status === 'error') {
+                        alert(data.message)
+                    } else if (data.status === 'success') {
+                        alert(data.dataresponse.output.success)
+                        $('div.dialog div.dialog-title span.close').click()
+                        clearNewPub()
+                        setTimeout(blogReadAll, 300);
+                    } else {
 
-                        } else {
-
-                        }
                     }
                 }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                alert(String(XMLHttpRequest.responseText));
             }
         });
     }            
@@ -1043,7 +1265,6 @@ footer a {
     }            
 
     function reset() {
-
         $('#title').val('')
         $('.select-option .head').html('Category')
         $('select#category').val('')
@@ -1058,7 +1279,7 @@ footer a {
     }
 
     var loadFile = function (event) {
-        debugger;
+        
         var reader = new FileReader();
         reader.onload = function () {
             var output = document.getElementById('output');
@@ -1067,6 +1288,49 @@ footer a {
         };
         reader.readAsDataURL(event.target.files[0]);
     }
+
+    function urltoFile (url, filename, mimeType){
+    return (fetch(url)
+        .then(function(res){return res.arrayBuffer();})
+        .then(function(buf){return new File([buf], filename, {type:mimeType});})
+    );
+    }
+
+    function populateForm(form, data) {
+        $.each(data, function(key, value) {
+            if(value !== null && typeof value === 'object' ) {
+                this.populateForm(form, value);
+            }
+            else {
+                if (key === 'base64') {
+                /**
+                let ext = base64.substring(base64.indexOf('/') + 1, base64.indexOf(';base64'));
+                urltoFile(value, 'img_'+new Date+'.'+ext, 'image')
+                .then(function(file){
+                    console.log(file);
+                });
+                **/    
+                var images = $('.images');
+                images.prepend('<div class="img" style="background-image: url(\'' +
+                                    value + '\');" rel="' +
+                                    value +
+                                    '"><span>remover</span></div>');
+                } else {
+                    var ctrl = $('[name='+key+']', form);
+                    switch(ctrl.prop("type")) {
+                        case "radio": case "checkbox":
+                        ctrl.each(function() {
+                            $(this).prop("checked",value);
+                        });
+                        break;
+                        default:
+                            ctrl.val(value);
+                    }
+                }
+            }
+        }.bind(this));
+    }
+
 </script>
 
 </html>
