@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
     <style>
-
     div.section-root-panel{
         padding: 1em;
     }
@@ -504,7 +501,7 @@ footer a {
                         </div>
                         <div class="three wide field">
                             <label>Mês de Registo</label>
-                            <div class="ui selection dropdown">
+                            <div id="pubMesRegisto" class="ui selection dropdown">
                                 <input name="pubMesRegisto" type="hidden">
                                 <div class="default text">Mês de Registo</div>
                                 <i class="dropdown icon"></i>
@@ -535,7 +532,7 @@ footer a {
 
                         <div class="three wide field">
                             <label>Combustível</label>
-                            <div class="ui selection dropdown">
+                            <div id="pubCombustivel" class="ui selection dropdown">
                                 <input name="pubCombustivel" type="hidden">
                                 <div class="default text">Combustível</div>
                                 <i class="dropdown icon"></i>
@@ -594,7 +591,7 @@ footer a {
                     <div class="field">
                         <div class="five wide field">
                             <label>Condição</label>
-                            <div class="ui selection dropdown">
+                            <div id="pubCondStatus" class="ui selection dropdown">
                                 <input name="pubCondStatus" type="hidden">
                                 <div class="default text">Condição</div>
                                 <i class="dropdown icon"></i>
@@ -711,7 +708,7 @@ footer a {
 
             })})
         })(jQuery)
-
+                var pubupdateid = ''
                 var ID
                 var way = 0
                 var queue = []
@@ -994,7 +991,6 @@ footer a {
                             let cardId = null;
                             let isPublished = null;
                             for (let u = 0; u < respdata.length; u++) {
-                                debugger
                                 local = respdata[u];
                                 images = local.pubGalery;
                                 cardId = local._id;
@@ -1062,6 +1058,7 @@ footer a {
                                             clearNewPub();
                                             generateID();
                                             populateForm($('form')[0], result);
+                                            pubupdateid = result._id;
                                         }
                                     } else if ($(this).find('i').hasClass('trash')) {
                                         if (confirm('Tem a certeza que pretende remover esta publicação?')) {
@@ -1085,7 +1082,6 @@ footer a {
                                     return false;
                                 });
                             }
-
                             sectionRoot.show();
                         }
                     } else {
@@ -1205,11 +1201,16 @@ footer a {
         let _self = who;
         let data = serviceParams()
         if (_self.currentTarget) {
+            if (pubupdateid) {
+                data.REQ_INPUTS['SUBACTION'] = 'pubUpdateById';
+                data.REQ_INPUTS['SUBVALUE'] = _self.currentTarget.id;
+                data.REQ_INPUTS['id'] = pubupdateid;
+            }
             if (_self.currentTarget.id === 'saveTrash') {
-                data.REQ_ACTION = 100200;
+                data.REQ_ACTION = pubupdateid ? 100600 : 100200;
                 data.REQ_INPUTS['published'] = false;
             } else if (_self.currentTarget.id === 'saveAndPublish') {
-                data.REQ_ACTION = 100400;
+                data.REQ_ACTION = pubupdateid ? 100600 : 100400;
                 data.REQ_INPUTS['published'] = true;
             } else {
                 alert('não sei o que fazer ao teu pedido!!!');
@@ -1262,6 +1263,7 @@ footer a {
         $('#date-create').calendar({type: 'date'});
         $('#ano-registo').calendar({type: 'year'});
         $(".rating").rating();
+        pubupdateid = null;
     }            
 
     function reset() {
@@ -1316,6 +1318,10 @@ footer a {
                                     value +
                                     '"><span>remover</span></div>');
                 } else {
+                    let checkdropdown = $('#'+key);
+                    if (checkdropdown.hasClass('dropdown')) {
+                        checkdropdown.dropdown('set selected',value);
+                    }
                     var ctrl = $('[name='+key+']', form);
                     switch(ctrl.prop("type")) {
                         case "radio": case "checkbox":
@@ -1325,7 +1331,7 @@ footer a {
                         break;
                         default:
                             ctrl.val(value);
-                    }
+                    } 
                 }
             }
         }.bind(this));
