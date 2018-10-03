@@ -59,7 +59,7 @@ function updateOrcSettings (_settings) {
      * overwrite serverUrlApi
      */
     if (orcsettings.server) {
-        orcsettings.server.serverUrlApi = orcsettings.server.local_server_path
+        //orcsettings.server.serverUrlApi = orcsettings.server.local_server_path
     }
     if (orcsettings.serverActions) {
         _serverActions = orcsettings.serverActions
