@@ -127,7 +127,7 @@ top.window['orcmanager'] = {
         return ('{url}?forceget={pageid}'.replace('{url}', urlPath).replace('{pageid}', new Date().getTime()))
     },
     viewController: {
-        url_path: '//orcseven.com/orcv2/viewController',//'//localhost:8081/orcv2/viewController'
+        url_path: '//orcseven.com/api/orcv2/viewController',//'//localhost:8081/orcv2/viewController'
         sync: function (callbk) {
             const _self = this
             $.get(_self.url_path, function (rsp){
