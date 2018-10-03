@@ -972,7 +972,6 @@ footer a {
         return await service('POST', data, callb)
     }
     function blogReadAll () {
-        debugger
         let data = serviceParams();
         data.REQ_ACTION = 100600;
         data.REQ_INPUTS['SUBACTION'] = 'readAll';
